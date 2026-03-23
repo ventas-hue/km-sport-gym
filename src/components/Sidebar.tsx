@@ -10,6 +10,8 @@ import {
   CreditCard,
   CalendarCheck,
   ShoppingCart,
+  Truck,
+  Receipt,
   Menu,
   X,
   LogOut,
@@ -24,6 +26,8 @@ const navItems = [
   { href: "/memberships", label: "Membresias", icon: CreditCard },
   { href: "/day-passes", label: "Visitas", icon: CalendarCheck },
   { href: "/sales", label: "Ventas", icon: ShoppingCart },
+  { href: "/purchases", label: "Compras", icon: Truck },
+  { href: "/expenses", label: "Gastos", icon: Receipt },
 ];
 
 export default function Sidebar() {

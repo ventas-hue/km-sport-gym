@@ -65,9 +65,10 @@ model Product {
   price       Float
   stock       Int      @default(0)
   category    String   @default("general")
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  sales       Sale[]
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  sales         Sale[]
+  purchaseItems PurchaseItem[]
 }
 
 model Sale {
@@ -79,4 +80,36 @@ model Sale {
   createdAt   DateTime @default(now())
   product     Product  @relation(fields: [productId], references: [id])
   client      Client?  @relation(fields: [clientId], references: [id], onDelete: SetNull)
+}
+
+model Purchase {
+  id            String         @id @default(cuid())
+  supplier      String
+  notes         String?
+  totalAmount   Float
+  paymentMethod String         @default("efectivo")
+  createdAt     DateTime       @default(now())
+  items         PurchaseItem[]
+}
+
+model PurchaseItem {
+  id         String   @id @default(cuid())
+  purchaseId String
+  productId  String
+  quantity   Int
+  unitCost   Float
+  subtotal   Float
+  purchase   Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id])
+}
+
+model Expense {
+  id            String   @id @default(cuid())
+  description   String
+  category      String   @default("general")
+  amount        Float
+  paymentMethod String   @default("efectivo")
+  date          DateTime @default(now())
+  notes         String?
+  createdAt     DateTime @default(now())
 }

@@ -11,6 +11,8 @@ import {
   CalendarCheck,
   XCircle,
   Phone,
+  Truck,
+  Receipt,
 } from "lucide-react";
 
 interface DashboardData {
@@ -22,6 +24,8 @@ interface DashboardData {
   membershipIncome: number;
   dayPassIncome: number;
   salesIncome: number;
+  purchasesTotal: number;
+  expensesTotal: number;
   recentMemberships: Array<{
     id: string;
     startDate: string;
@@ -129,11 +133,11 @@ export default function Dashboard() {
       </div>
 
       {/* Income Breakdown */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div className="flex items-center gap-3 mb-2">
             <DollarSign className="text-orange-500" size={20} />
-            <h3 className="font-semibold text-gray-700">Total del Mes</h3>
+            <h3 className="font-semibold text-gray-700">Ingresos del Mes</h3>
           </div>
           <p className="text-2xl font-bold text-orange-600">
             ${data.monthlyIncome.toLocaleString("es-MX", { minimumFractionDigits: 2 })}
@@ -160,11 +164,57 @@ export default function Dashboard() {
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div className="flex items-center gap-3 mb-2">
             <ShoppingCart className="text-purple-500" size={20} />
-            <h3 className="font-semibold text-gray-700">Ventas</h3>
+            <h3 className="font-semibold text-gray-700">Ventas Productos</h3>
           </div>
           <p className="text-2xl font-bold text-purple-600">
             ${data.salesIncome.toLocaleString("es-MX", { minimumFractionDigits: 2 })}
           </p>
+        </div>
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center gap-3 mb-2">
+            <Truck className="text-blue-500" size={20} />
+            <h3 className="font-semibold text-gray-700">Compras del Mes</h3>
+          </div>
+          <p className="text-2xl font-bold text-blue-700">
+            ${(data.purchasesTotal || 0).toLocaleString("es-MX", { minimumFractionDigits: 2 })}
+          </p>
+        </div>
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center gap-3 mb-2">
+            <Receipt className="text-red-500" size={20} />
+            <h3 className="font-semibold text-gray-700">Gastos del Mes</h3>
+          </div>
+          <p className="text-2xl font-bold text-red-600">
+            ${(data.expensesTotal || 0).toLocaleString("es-MX", { minimumFractionDigits: 2 })}
+          </p>
+        </div>
+      </div>
+
+      {/* Balance */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <h3 className="font-semibold text-gray-700 mb-2">Balance del Mes</h3>
+        <div className="flex items-center gap-4 flex-wrap">
+          <div>
+            <span className="text-sm text-gray-500">Ingresos: </span>
+            <span className="font-bold text-green-600">${data.monthlyIncome.toLocaleString("es-MX", { minimumFractionDigits: 2 })}</span>
+          </div>
+          <span className="text-gray-300">-</span>
+          <div>
+            <span className="text-sm text-gray-500">Compras: </span>
+            <span className="font-bold text-blue-600">${(data.purchasesTotal || 0).toLocaleString("es-MX", { minimumFractionDigits: 2 })}</span>
+          </div>
+          <span className="text-gray-300">-</span>
+          <div>
+            <span className="text-sm text-gray-500">Gastos: </span>
+            <span className="font-bold text-red-600">${(data.expensesTotal || 0).toLocaleString("es-MX", { minimumFractionDigits: 2 })}</span>
+          </div>
+          <span className="text-gray-300">=</span>
+          <div>
+            <span className="text-sm text-gray-500">Utilidad: </span>
+            <span className={`font-bold text-2xl ${(data.monthlyIncome - (data.purchasesTotal || 0) - (data.expensesTotal || 0)) >= 0 ? "text-green-600" : "text-red-600"}`}>
+              ${(data.monthlyIncome - (data.purchasesTotal || 0) - (data.expensesTotal || 0)).toLocaleString("es-MX", { minimumFractionDigits: 2 })}
+            </span>
+          </div>
         </div>
       </div>
 

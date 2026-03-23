@@ -16,6 +16,8 @@ export async function GET() {
     monthlyMembershipIncome,
     monthlyDayPassIncome,
     monthlySalesIncome,
+    monthlyPurchasesTotal,
+    monthlyExpensesTotal,
     recentMemberships,
     expiringSoon,
     expiredMemberships,
@@ -40,6 +42,14 @@ export async function GET() {
       where: { createdAt: { gte: startOfMonth, lte: endOfMonth } },
       _sum: { totalAmount: true },
     }),
+    prisma.purchase.aggregate({
+      where: { createdAt: { gte: startOfMonth, lte: endOfMonth } },
+      _sum: { totalAmount: true },
+    }),
+    prisma.expense.aggregate({
+      where: { date: { gte: startOfMonth, lte: endOfMonth } },
+      _sum: { amount: true },
+    }),
     prisma.membership.findMany({
       include: { client: true, package: true },
       orderBy: { createdAt: "desc" },
@@ -60,6 +70,8 @@ export async function GET() {
   const membershipIncome = monthlyMembershipIncome._sum.amountPaid || 0;
   const dayPassIncome = monthlyDayPassIncome._sum.amountPaid || 0;
   const salesIncome = monthlySalesIncome._sum.totalAmount || 0;
+  const purchasesTotal = monthlyPurchasesTotal._sum.totalAmount || 0;
+  const expensesTotal = monthlyExpensesTotal._sum.amount || 0;
 
   return NextResponse.json({
     totalClients,
@@ -70,6 +82,8 @@ export async function GET() {
     membershipIncome,
     dayPassIncome,
     salesIncome,
+    purchasesTotal,
+    expensesTotal,
     recentMemberships,
     expiringSoon,
     expiredMemberships,
