@@ -7,10 +7,21 @@ export async function GET(request: NextRequest) {
   const expiringSoon = searchParams.get("expiringSoon");
 
   const where: Record<string, unknown> = {};
+  const now = new Date();
 
-  if (status) where.status = status;
+  if (status === "expired") {
+    // Vencidas: fecha ya pasó y no está cancelada
+    where.endDate = { lt: now };
+    where.status = { notIn: ["cancelled", "renewed"] };
+  } else if (status === "active") {
+    // Activas: fecha no ha pasado
+    where.status = "active";
+    where.endDate = { gte: now };
+  } else if (status) {
+    where.status = status;
+  }
+
   if (expiringSoon === "true") {
-    const now = new Date();
     const inSevenDays = new Date();
     inSevenDays.setDate(inSevenDays.getDate() + 7);
     where.status = "active";
