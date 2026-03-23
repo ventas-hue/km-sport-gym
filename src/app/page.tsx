@@ -105,7 +105,7 @@ export default function Dashboard() {
     <div className="space-y-8 animate-fade-in">
       <div className="pt-8 lg:pt-0">
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500 mt-1">Bienvenido a KM Sport Gym</p>
+        <p className="text-gray-500 mt-1">Bienvenido a LM Sport Gym</p>
       </div>
 
       {/* Stats Cards */}

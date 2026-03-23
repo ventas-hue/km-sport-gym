@@ -4,8 +4,8 @@ import AppShell from "@/components/AppShell";
 import AuthProvider from "@/components/AuthProvider";
 
 export const metadata: Metadata = {
-  title: "KM SPORT GYM - Donde se hacen los campeones",
-  description: "Sistema de gestion para KM Sport Gym",
+  title: "LM SPORT GYM - Donde se hacen los campeones",
+  description: "Sistema de gestion para LM Sport Gym",
 };
 
 export default function RootLayout({

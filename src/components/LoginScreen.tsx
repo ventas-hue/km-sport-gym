@@ -32,14 +32,14 @@ export default function LoginScreen() {
           <div className="flex justify-center mb-4">
             <Image
               src="/logo.png"
-              alt="KM Sport Gym"
+              alt="LM Sport Gym"
               width={150}
               height={150}
               className="drop-shadow-2xl"
               priority
             />
           </div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">KM SPORT GYM</h1>
+          <h1 className="text-3xl font-bold text-white tracking-tight">LM SPORT GYM</h1>
           <p className="text-orange-400 font-semibold mt-1 italic text-lg">
             &ldquo;Donde se hacen los campeones&rdquo;
           </p>
@@ -111,7 +111,7 @@ export default function LoginScreen() {
         </div>
 
         <p className="text-center text-gray-500 text-xs mt-6">
-          KM Sport Gym &copy; {new Date().getFullYear()}
+          LM Sport Gym &copy; {new Date().getFullYear()}
         </p>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const session = request.cookies.get("km_session");
+  const session = request.cookies.get("lm_session");
   if (session?.value === "authenticated") {
     return NextResponse.json({ authenticated: true });
   }

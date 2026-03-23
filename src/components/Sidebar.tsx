@@ -60,12 +60,12 @@ export default function Sidebar() {
           <div className="flex flex-col items-center">
             <Image
               src="/logo.png"
-              alt="KM Sport Gym"
+              alt="LM Sport Gym"
               width={80}
               height={80}
               className="mb-2"
             />
-            <h1 className="text-xl font-bold tracking-tight">KM SPORT GYM</h1>
+            <h1 className="text-xl font-bold tracking-tight">LM SPORT GYM</h1>
             <p className="text-xs text-orange-400 font-semibold italic mt-0.5">
               Donde se hacen los campeones
             </p>
@@ -106,7 +106,7 @@ export default function Sidebar() {
             <span className="text-sm font-medium">Cerrar Sesion</span>
           </button>
           <p className="text-xs text-gray-600 text-center mt-2">
-            KM Sport Gym &copy; {new Date().getFullYear()}
+            LM Sport Gym &copy; {new Date().getFullYear()}
           </p>
         </div>
       </aside>
