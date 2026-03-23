@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
+import AppShell from "@/components/AppShell";
+import AuthProvider from "@/components/AuthProvider";
 
 export const metadata: Metadata = {
-  title: "KM SPORT GYM - Sistema de Gestion",
+  title: "KM SPORT GYM - Donde se hacen los campeones",
   description: "Sistema de gestion para KM Sport Gym",
 };
 
@@ -15,10 +16,9 @@ export default function RootLayout({
   return (
     <html lang="es" className="h-full antialiased">
       <body className="min-h-full">
-        <Sidebar />
-        <main className="lg:ml-64 min-h-screen">
-          <div className="p-4 lg:p-8">{children}</div>
-        </main>
+        <AuthProvider>
+          <AppShell>{children}</AppShell>
+        </AuthProvider>
       </body>
     </html>
   );

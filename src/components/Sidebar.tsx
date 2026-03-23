@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -9,11 +10,12 @@ import {
   CreditCard,
   CalendarCheck,
   ShoppingCart,
-  Dumbbell,
   Menu,
   X,
+  LogOut,
 } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "./AuthProvider";
 
 const navItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -27,6 +29,7 @@ const navItems = [
 export default function Sidebar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { logout } = useAuth();
 
   return (
     <>
@@ -54,14 +57,18 @@ export default function Sidebar() {
       >
         {/* Logo */}
         <div className="p-6 border-b border-white/10">
-          <div className="flex items-center gap-3">
-            <div className="bg-orange-500 p-2 rounded-lg">
-              <Dumbbell size={28} className="text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold tracking-tight">KM SPORT</h1>
-              <p className="text-xs text-orange-400 font-semibold">GYM</p>
-            </div>
+          <div className="flex flex-col items-center">
+            <Image
+              src="/logo.png"
+              alt="KM Sport Gym"
+              width={80}
+              height={80}
+              className="mb-2"
+            />
+            <h1 className="text-xl font-bold tracking-tight">KM SPORT GYM</h1>
+            <p className="text-xs text-orange-400 font-semibold italic mt-0.5">
+              Donde se hacen los campeones
+            </p>
           </div>
         </div>
 
@@ -89,9 +96,16 @@ export default function Sidebar() {
           })}
         </nav>
 
-        {/* Footer */}
+        {/* Footer with Logout */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10">
-          <p className="text-xs text-gray-500 text-center">
+          <button
+            onClick={logout}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+          >
+            <LogOut size={18} />
+            <span className="text-sm font-medium">Cerrar Sesion</span>
+          </button>
+          <p className="text-xs text-gray-600 text-center mt-2">
             KM Sport Gym &copy; {new Date().getFullYear()}
           </p>
         </div>
