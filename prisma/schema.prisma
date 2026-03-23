@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id               String       @id @default(cuid())
+  firstName        String
+  lastName         String
+  phone            String
+  email            String?
+  emergencyContact String?
+  birthDate        DateTime?
+  notes            String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  memberships      Membership[]
+  dayPasses        DayPass[]
+  sales            Sale[]
+}
+
+model Package {
+  id           String       @id @default(cuid())
+  name         String
+  description  String?
+  price        Float
+  durationDays Int
+  isActive     Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  memberships  Membership[]
+}
+
+model Membership {
+  id            String   @id @default(cuid())
+  clientId      String
+  packageId     String
+  startDate     DateTime
+  endDate       DateTime
+  amountPaid    Float
+  paymentMethod String   @default("efectivo")
+  status        String   @default("active")
+  createdAt     DateTime @default(now())
+  client        Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  package       Package  @relation(fields: [packageId], references: [id])
+}
+
+model DayPass {
+  id         String   @id @default(cuid())
+  clientId   String?
+  clientName String?
+  date       DateTime @default(now())
+  amountPaid Float
+  createdAt  DateTime @default(now())
+  client     Client?  @relation(fields: [clientId], references: [id], onDelete: SetNull)
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  stock       Int      @default(0)
+  category    String   @default("general")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  sales       Sale[]
+}
+
+model Sale {
+  id          String   @id @default(cuid())
+  productId   String
+  clientId    String?
+  quantity    Int      @default(1)
+  totalAmount Float
+  createdAt   DateTime @default(now())
+  product     Product  @relation(fields: [productId], references: [id])
+  client      Client?  @relation(fields: [clientId], references: [id], onDelete: SetNull)
+}

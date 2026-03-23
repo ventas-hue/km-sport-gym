@@ -1,0 +1,65 @@
+import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+  const inSevenDays = new Date();
+  inSevenDays.setDate(inSevenDays.getDate() + 7);
+
+  const [
+    totalClients,
+    activeMemberships,
+    expiringMemberships,
+    monthlyMembershipIncome,
+    monthlyDayPassIncome,
+    monthlySalesIncome,
+    recentMemberships,
+    expiringSoon,
+  ] = await Promise.all([
+    prisma.client.count(),
+    prisma.membership.count({ where: { status: "active", endDate: { gte: now } } }),
+    prisma.membership.count({
+      where: { status: "active", endDate: { gte: now, lte: inSevenDays } },
+    }),
+    prisma.membership.aggregate({
+      where: { createdAt: { gte: startOfMonth, lte: endOfMonth } },
+      _sum: { amountPaid: true },
+    }),
+    prisma.dayPass.aggregate({
+      where: { createdAt: { gte: startOfMonth, lte: endOfMonth } },
+      _sum: { amountPaid: true },
+    }),
+    prisma.sale.aggregate({
+      where: { createdAt: { gte: startOfMonth, lte: endOfMonth } },
+      _sum: { totalAmount: true },
+    }),
+    prisma.membership.findMany({
+      include: { client: true, package: true },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+    }),
+    prisma.membership.findMany({
+      where: { status: "active", endDate: { gte: now, lte: inSevenDays } },
+      include: { client: true, package: true },
+      orderBy: { endDate: "asc" },
+    }),
+  ]);
+
+  const membershipIncome = monthlyMembershipIncome._sum.amountPaid || 0;
+  const dayPassIncome = monthlyDayPassIncome._sum.amountPaid || 0;
+  const salesIncome = monthlySalesIncome._sum.totalAmount || 0;
+
+  return NextResponse.json({
+    totalClients,
+    activeMemberships,
+    expiringMemberships,
+    monthlyIncome: membershipIncome + dayPassIncome + salesIncome,
+    membershipIncome,
+    dayPassIncome,
+    salesIncome,
+    recentMemberships,
+    expiringSoon,
+  });
+}
