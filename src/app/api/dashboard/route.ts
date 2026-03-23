@@ -28,7 +28,10 @@ export async function GET() {
       where: { status: "active", endDate: { gte: now, lte: inSevenDays } },
     }),
     prisma.membership.count({
-      where: { endDate: { lt: now }, status: { not: "cancelled" } },
+      where: {
+        endDate: { lt: now },
+        status: { notIn: ["cancelled", "renewed"] },
+      },
     }),
     prisma.membership.aggregate({
       where: { createdAt: { gte: startOfMonth, lte: endOfMonth } },
@@ -61,7 +64,10 @@ export async function GET() {
       orderBy: { endDate: "asc" },
     }),
     prisma.membership.findMany({
-      where: { endDate: { lt: now }, status: { not: "cancelled" } },
+      where: {
+        endDate: { lt: now },
+        status: { notIn: ["cancelled", "renewed"] },
+      },
       include: { client: true, package: true },
       orderBy: { endDate: "desc" },
     }),
