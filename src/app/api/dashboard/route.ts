@@ -12,16 +12,21 @@ export async function GET() {
     totalClients,
     activeMemberships,
     expiringMemberships,
+    expiredCount,
     monthlyMembershipIncome,
     monthlyDayPassIncome,
     monthlySalesIncome,
     recentMemberships,
     expiringSoon,
+    expiredMemberships,
   ] = await Promise.all([
     prisma.client.count(),
     prisma.membership.count({ where: { status: "active", endDate: { gte: now } } }),
     prisma.membership.count({
       where: { status: "active", endDate: { gte: now, lte: inSevenDays } },
+    }),
+    prisma.membership.count({
+      where: { endDate: { lt: now }, status: { not: "cancelled" } },
     }),
     prisma.membership.aggregate({
       where: { createdAt: { gte: startOfMonth, lte: endOfMonth } },
@@ -45,6 +50,11 @@ export async function GET() {
       include: { client: true, package: true },
       orderBy: { endDate: "asc" },
     }),
+    prisma.membership.findMany({
+      where: { endDate: { lt: now }, status: { not: "cancelled" } },
+      include: { client: true, package: true },
+      orderBy: { endDate: "desc" },
+    }),
   ]);
 
   const membershipIncome = monthlyMembershipIncome._sum.amountPaid || 0;
@@ -55,11 +65,13 @@ export async function GET() {
     totalClients,
     activeMemberships,
     expiringMemberships,
+    expiredCount,
     monthlyIncome: membershipIncome + dayPassIncome + salesIncome,
     membershipIncome,
     dayPassIncome,
     salesIncome,
     recentMemberships,
     expiringSoon,
+    expiredMemberships,
   });
 }

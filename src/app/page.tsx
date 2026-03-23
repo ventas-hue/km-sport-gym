@@ -9,12 +9,15 @@ import {
   TrendingUp,
   ShoppingCart,
   CalendarCheck,
+  XCircle,
+  Phone,
 } from "lucide-react";
 
 interface DashboardData {
   totalClients: number;
   activeMemberships: number;
   expiringMemberships: number;
+  expiredCount: number;
   monthlyIncome: number;
   membershipIncome: number;
   dayPassIncome: number;
@@ -27,6 +30,12 @@ interface DashboardData {
     package: { name: string };
   }>;
   expiringSoon: Array<{
+    id: string;
+    endDate: string;
+    client: { firstName: string; lastName: string; phone: string };
+    package: { name: string };
+  }>;
+  expiredMemberships: Array<{
     id: string;
     endDate: string;
     client: { firstName: string; lastName: string; phone: string };
@@ -79,13 +88,18 @@ export default function Dashboard() {
       lightColor: "bg-yellow-50",
     },
     {
-      label: "Ingresos del Mes",
-      value: `$${data.monthlyIncome.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`,
-      icon: DollarSign,
-      color: "bg-orange-500",
-      lightColor: "bg-orange-50",
+      label: "Vencidas",
+      value: data.expiredCount,
+      icon: XCircle,
+      color: "bg-red-500",
+      lightColor: "bg-red-50",
     },
   ];
+
+  const getDaysExpired = (endDate: string) => {
+    const days = Math.floor((Date.now() - new Date(endDate).getTime()) / (1000 * 60 * 60 * 24));
+    return days;
+  };
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -115,7 +129,16 @@ export default function Dashboard() {
       </div>
 
       {/* Income Breakdown */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center gap-3 mb-2">
+            <DollarSign className="text-orange-500" size={20} />
+            <h3 className="font-semibold text-gray-700">Total del Mes</h3>
+          </div>
+          <p className="text-2xl font-bold text-orange-600">
+            ${data.monthlyIncome.toLocaleString("es-MX", { minimumFractionDigits: 2 })}
+          </p>
+        </div>
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div className="flex items-center gap-3 mb-2">
             <TrendingUp className="text-green-500" size={20} />
@@ -137,7 +160,7 @@ export default function Dashboard() {
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div className="flex items-center gap-3 mb-2">
             <ShoppingCart className="text-purple-500" size={20} />
-            <h3 className="font-semibold text-gray-700">Ventas Productos</h3>
+            <h3 className="font-semibold text-gray-700">Ventas</h3>
           </div>
           <p className="text-2xl font-bold text-purple-600">
             ${data.salesIncome.toLocaleString("es-MX", { minimumFractionDigits: 2 })}
@@ -145,13 +168,60 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* Expired Memberships - PROMINENT */}
+      {data.expiredMemberships.length > 0 && (
+        <div className="bg-white rounded-xl shadow-sm border-2 border-red-200">
+          <div className="p-6 border-b border-red-100 bg-red-50 rounded-t-xl">
+            <h2 className="text-lg font-bold flex items-center gap-2 text-red-700">
+              <XCircle size={22} />
+              Membresias Vencidas - Llamar para Renovar ({data.expiredMemberships.length})
+            </h2>
+          </div>
+          <div className="p-6">
+            <div className="space-y-3">
+              {data.expiredMemberships.map((m) => {
+                const daysAgo = getDaysExpired(m.endDate);
+                return (
+                  <div
+                    key={m.id}
+                    className="flex items-center justify-between p-4 bg-red-50 rounded-lg border border-red-100"
+                  >
+                    <div>
+                      <p className="font-bold text-gray-900 text-lg">
+                        {m.client.firstName} {m.client.lastName}
+                      </p>
+                      <p className="text-sm text-gray-500">{m.package.name}</p>
+                      <p className="text-sm text-red-600 font-medium mt-1">
+                        Vencida hace {daysAgo} dia{daysAgo !== 1 ? "s" : ""}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <a
+                        href={`tel:${m.client.phone}`}
+                        className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                      >
+                        <Phone size={16} />
+                        {m.client.phone}
+                      </a>
+                      <p className="text-xs text-gray-400 mt-2">
+                        Vencio: {new Date(m.endDate).toLocaleDateString("es-MX")}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Expiring Soon */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="p-6 border-b border-gray-100">
             <h2 className="text-lg font-bold flex items-center gap-2">
               <AlertTriangle className="text-yellow-500" size={20} />
-              Membresias por Vencer
+              Por Vencer (7 dias)
             </h2>
           </div>
           <div className="p-6">
@@ -176,7 +246,9 @@ export default function Dashboard() {
                       <p className="text-sm font-medium text-yellow-700">
                         Vence: {new Date(m.endDate).toLocaleDateString("es-MX")}
                       </p>
-                      <p className="text-xs text-gray-400">{m.client.phone}</p>
+                      <a href={`tel:${m.client.phone}`} className="text-sm text-blue-500 hover:underline flex items-center justify-end gap-1 mt-1">
+                        <Phone size={12} /> {m.client.phone}
+                      </a>
                     </div>
                   </div>
                 ))}
