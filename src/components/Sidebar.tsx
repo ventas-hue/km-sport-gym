@@ -20,14 +20,14 @@ import { useState } from "react";
 import { useAuth } from "./AuthProvider";
 
 const navItems = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/clients", label: "Clientes", icon: Users },
-  { href: "/packages", label: "Paquetes", icon: Package },
-  { href: "/memberships", label: "Membresias", icon: CreditCard },
-  { href: "/day-passes", label: "Visitas", icon: CalendarCheck },
-  { href: "/sales", label: "Ventas", icon: ShoppingCart },
-  { href: "/purchases", label: "Compras", icon: Truck },
-  { href: "/expenses", label: "Gastos", icon: Receipt },
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/clients", label: "Clientes", icon: Users },
+  { href: "/admin/packages", label: "Paquetes", icon: Package },
+  { href: "/admin/memberships", label: "Membresias", icon: CreditCard },
+  { href: "/admin/day-passes", label: "Visitas", icon: CalendarCheck },
+  { href: "/admin/sales", label: "Ventas", icon: ShoppingCart },
+  { href: "/admin/purchases", label: "Compras", icon: Truck },
+  { href: "/admin/expenses", label: "Gastos", icon: Receipt },
 ];
 
 export default function Sidebar() {
@@ -81,7 +81,7 @@ export default function Sidebar() {
           {navItems.map((item) => {
             const isActive =
               pathname === item.href ||
-              (item.href !== "/" && pathname.startsWith(item.href));
+              (item.href !== "/admin" && pathname.startsWith(item.href));
             return (
               <Link
                 key={item.href}

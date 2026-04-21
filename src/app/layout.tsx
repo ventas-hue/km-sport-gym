@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import AppShell from "@/components/AppShell";
-import AuthProvider from "@/components/AuthProvider";
 
 export const metadata: Metadata = {
   title: "LM SPORT GYM - Donde se hacen los campeones",
-  description: "Sistema de gestion para LM Sport Gym",
+  description: "Coaching fitness profesional por Karla Lizeth Merlos. Gimnasio en Morelia y coaching online.",
 };
 
 export default function RootLayout({
@@ -15,11 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="h-full antialiased">
-      <body className="min-h-full">
-        <AuthProvider>
-          <AppShell>{children}</AppShell>
-        </AuthProvider>
-      </body>
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }

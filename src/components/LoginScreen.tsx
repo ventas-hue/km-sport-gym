@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useAuth } from "./AuthProvider";
-import { Lock, User, Eye, EyeOff } from "lucide-react";
+import { Lock, User, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LoginScreen() {
   const { login } = useAuth();
@@ -110,9 +111,18 @@ export default function LoginScreen() {
           </form>
         </div>
 
-        <p className="text-center text-gray-500 text-xs mt-6">
-          LM Sport Gym &copy; {new Date().getFullYear()}
-        </p>
+        <div className="mt-6 text-center">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
+          >
+            <ArrowLeft size={14} />
+            Volver al inicio
+          </Link>
+          <p className="text-gray-500 text-xs mt-3">
+            LM Sport Gym &copy; {new Date().getFullYear()}
+          </p>
+        </div>
       </div>
     </div>
   );

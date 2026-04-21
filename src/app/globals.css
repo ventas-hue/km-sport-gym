@@ -20,17 +20,26 @@
   box-sizing: border-box;
 }
 
-body {
-  background: #f3f4f6;
-  color: #1f2937;
+html, body {
+  background: #0a0a0a;
+  color: #f5f5f5;
   font-family: var(--font-sans);
 }
 
+/* Admin keeps its light theme wherever AdminLayout sets it */
+.admin-theme {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
 /* Custom scrollbar */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #404040; }
+
+.admin-theme ::-webkit-scrollbar-thumb { background: #d1d5db; }
+.admin-theme ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 
 /* Animations */
 @keyframes fadeIn {
@@ -39,11 +48,42 @@ body {
 }
 .animate-fade-in { animation: fadeIn 0.3s ease-out; }
 
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+
 @keyframes slideIn {
   from { opacity: 0; transform: translateX(-12px); }
   to { opacity: 1; transform: translateX(0); }
 }
 .animate-slide-in { animation: slideIn 0.3s ease-out; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(249, 115, 22, 0.5); }
+}
+.animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 /* Modal overlay */
 .modal-overlay {
@@ -56,3 +96,6 @@ body {
   z-index: 50;
   animation: fadeIn 0.2s ease-out;
 }
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
