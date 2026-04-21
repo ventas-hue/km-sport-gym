@@ -104,17 +104,32 @@ export default function ClientsPage() {
     setDetail(await res.json());
   };
 
-  const getStatusBadge = (client: Client) => {
+  const getMembershipState = (client: Client): "active" | "expired" | "none" => {
     const lastMembership = client.memberships?.[0];
-    if (!lastMembership) return <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-500">Sin membresia</span>;
-    const isActive = lastMembership.status === "active" && new Date(lastMembership.endDate) >= new Date();
+    if (!lastMembership) return "none";
+    const isActive =
+      lastMembership.status === "active" &&
+      new Date(lastMembership.endDate) >= new Date();
+    return isActive ? "active" : "expired";
+  };
+
+  const getStatusBadge = (client: Client) => {
+    const state = getMembershipState(client);
+    if (state === "none")
+      return (
+        <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-500">
+          Sin membresia
+        </span>
+      );
     return (
       <span
-        className={`px-2 py-1 text-xs rounded-full font-medium ${
-          isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+        className={`px-2 py-1 text-xs rounded-full font-semibold ${
+          state === "active"
+            ? "bg-green-100 text-green-700"
+            : "bg-red-500 text-white"
         }`}
       >
-        {isActive ? "Activo" : "Vencido"}
+        {state === "active" ? "Activo" : "Vencido"}
       </span>
     );
   };
@@ -173,12 +188,25 @@ export default function ClientsPage() {
                 </tr>
               </thead>
               <tbody>
-                {clients.map((client) => (
-                  <tr key={client.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                {clients.map((client) => {
+                  const state = getMembershipState(client);
+                  const rowClass =
+                    state === "expired"
+                      ? "bg-red-50 hover:bg-red-100 border-l-4 border-red-500"
+                      : "hover:bg-gray-50/50";
+                  const nameClass =
+                    state === "expired" ? "text-red-700" : "text-gray-900";
+                  return (
+                  <tr
+                    key={client.id}
+                    className={`border-b border-gray-50 transition-colors ${rowClass}`}
+                  >
                     <td className="px-6 py-4">
-                      <p className="font-semibold text-gray-900">{client.firstName} {client.lastName}</p>
+                      <p className={`font-semibold ${nameClass}`}>
+                        {client.firstName} {client.lastName}
+                      </p>
                     </td>
-                    <td className="px-6 py-4 text-gray-600">{client.phone}</td>
+                    <td className={`px-6 py-4 ${state === "expired" ? "text-red-600 font-medium" : "text-gray-600"}`}>{client.phone}</td>
                     <td className="px-6 py-4 text-gray-500 hidden md:table-cell">{client.email || "-"}</td>
                     <td className="px-6 py-4">{getStatusBadge(client)}</td>
                     <td className="px-6 py-4 text-gray-500 text-sm hidden md:table-cell">
@@ -210,7 +238,8 @@ export default function ClientsPage() {
                       </div>
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
               </tbody>
             </table>
           </div>

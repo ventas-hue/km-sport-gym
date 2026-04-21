@@ -13,7 +13,14 @@ import {
   Phone,
   Truck,
   Receipt,
+  MessageCircle,
 } from "lucide-react";
+
+function buildWhatsAppUrl(phone: string, message: string) {
+  const digits = phone.replace(/\D/g, "");
+  const withCountry = digits.length === 10 ? `52${digits}` : digits;
+  return `https://wa.me/${withCountry}?text=${encodeURIComponent(message)}`;
+}
 
 interface DashboardData {
   totalClients: number;
@@ -231,10 +238,11 @@ export default function Dashboard() {
             <div className="space-y-3">
               {data.expiredMemberships.map((m) => {
                 const daysAgo = getDaysExpired(m.endDate);
+                const waMessage = `Hola ${m.client.firstName}, te saludamos de LM Sport Gym. Notamos que tu membresia ${m.package.name} vencio hace ${daysAgo} dia${daysAgo !== 1 ? "s" : ""} (${new Date(m.endDate).toLocaleDateString("es-MX")}). Nos encantaria verte de nuevo, ¿renovamos hoy? Karla Lizeth te espera.`;
                 return (
                   <div
                     key={m.id}
-                    className="flex items-center justify-between p-4 bg-red-50 rounded-lg border border-red-100"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-red-50 rounded-lg border border-red-100"
                   >
                     <div>
                       <p className="font-bold text-gray-900 text-lg">
@@ -245,16 +253,29 @@ export default function Dashboard() {
                         Vencida hace {daysAgo} dia{daysAgo !== 1 ? "s" : ""}
                       </p>
                     </div>
-                    <div className="text-right">
-                      <a
-                        href={`tel:${m.client.phone}`}
-                        className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
-                      >
-                        <Phone size={16} />
-                        {m.client.phone}
-                      </a>
-                      <p className="text-xs text-gray-400 mt-2">
-                        Vencio: {new Date(m.endDate).toLocaleDateString("es-MX")}
+                    <div className="flex flex-col items-stretch sm:items-end gap-2">
+                      <div className="flex gap-2">
+                        <a
+                          href={`tel:${m.client.phone}`}
+                          className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg font-medium transition-colors text-sm"
+                          title="Llamar"
+                        >
+                          <Phone size={16} />
+                          Llamar
+                        </a>
+                        <a
+                          href={buildWhatsAppUrl(m.client.phone, waMessage)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg font-medium transition-colors text-sm"
+                          title="Enviar WhatsApp"
+                        >
+                          <MessageCircle size={16} />
+                          WhatsApp
+                        </a>
+                      </div>
+                      <p className="text-xs text-gray-500">
+                        {m.client.phone} · Vencio: {new Date(m.endDate).toLocaleDateString("es-MX")}
                       </p>
                     </div>
                   </div>
@@ -281,27 +302,43 @@ export default function Dashboard() {
               </p>
             ) : (
               <div className="space-y-3">
-                {data.expiringSoon.map((m) => (
+                {data.expiringSoon.map((m) => {
+                  const waMessage = `Hola ${m.client.firstName}, te saludamos de LM Sport Gym. Tu membresia ${m.package.name} vence el ${new Date(m.endDate).toLocaleDateString("es-MX")}. ¿Quieres que te la renovemos para que no pierdas tu ritmo? Karla Lizeth.`;
+                  return (
                   <div
                     key={m.id}
-                    className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg border border-yellow-100"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 bg-yellow-50 rounded-lg border border-yellow-100"
                   >
                     <div>
                       <p className="font-semibold text-gray-800">
                         {m.client.firstName} {m.client.lastName}
                       </p>
                       <p className="text-sm text-gray-500">{m.package.name}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-medium text-yellow-700">
+                      <p className="text-xs text-yellow-700 font-medium mt-0.5">
                         Vence: {new Date(m.endDate).toLocaleDateString("es-MX")}
                       </p>
-                      <a href={`tel:${m.client.phone}`} className="text-sm text-blue-500 hover:underline flex items-center justify-end gap-1 mt-1">
-                        <Phone size={12} /> {m.client.phone}
+                    </div>
+                    <div className="flex gap-1.5">
+                      <a
+                        href={`tel:${m.client.phone}`}
+                        className="inline-flex items-center gap-1 bg-blue-500 hover:bg-blue-600 text-white px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors"
+                        title={`Llamar a ${m.client.phone}`}
+                      >
+                        <Phone size={12} /> Llamar
+                      </a>
+                      <a
+                        href={buildWhatsAppUrl(m.client.phone, waMessage)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 bg-green-500 hover:bg-green-600 text-white px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors"
+                        title="Enviar WhatsApp"
+                      >
+                        <MessageCircle size={12} /> WhatsApp
                       </a>
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
