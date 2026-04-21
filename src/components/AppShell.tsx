@@ -23,14 +23,17 @@ export default function AppShell({
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated && user && user.role !== requireRole) {
+    // Admin has access to everything; otherwise redirect to the role's home
+    if (
+      !isLoading &&
+      isAuthenticated &&
+      user &&
+      user.role !== requireRole &&
+      user.role !== "admin"
+    ) {
       const target =
         redirectByRole?.[user.role] ??
-        (user.role === "admin"
-          ? "/admin"
-          : user.role === "coach"
-          ? "/coach"
-          : "/miembro");
+        (user.role === "coach" ? "/coach" : "/miembro");
       router.replace(target);
     }
   }, [isLoading, isAuthenticated, user, requireRole, redirectByRole, router]);
@@ -47,7 +50,7 @@ export default function AppShell({
     return <LoginScreen />;
   }
 
-  if (user && user.role !== requireRole) {
+  if (user && user.role !== requireRole && user.role !== "admin") {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500" />

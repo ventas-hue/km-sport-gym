@@ -115,6 +115,67 @@ async function main() {
     },
   });
 
+  // Exercise library - basic foundation
+  const exercises = [
+    // Chest
+    { name: "Press de banca con barra", muscleGroup: "chest", equipment: "barbell" },
+    { name: "Press inclinado con mancuernas", muscleGroup: "chest", equipment: "dumbbell" },
+    { name: "Aperturas con mancuernas", muscleGroup: "chest", equipment: "dumbbell" },
+    { name: "Fondos en paralelas", muscleGroup: "chest", equipment: "bodyweight" },
+    { name: "Press en maquina", muscleGroup: "chest", equipment: "machine" },
+    // Back
+    { name: "Dominadas", muscleGroup: "back", equipment: "bodyweight" },
+    { name: "Remo con barra", muscleGroup: "back", equipment: "barbell" },
+    { name: "Jalon al pecho", muscleGroup: "back", equipment: "machine" },
+    { name: "Remo en polea baja", muscleGroup: "back", equipment: "machine" },
+    { name: "Peso muerto", muscleGroup: "back", equipment: "barbell" },
+    // Legs
+    { name: "Sentadilla con barra", muscleGroup: "legs", equipment: "barbell" },
+    { name: "Prensa", muscleGroup: "legs", equipment: "machine" },
+    { name: "Extension de cuadriceps", muscleGroup: "legs", equipment: "machine" },
+    { name: "Curl femoral", muscleGroup: "legs", equipment: "machine" },
+    { name: "Hip thrust", muscleGroup: "legs", equipment: "barbell" },
+    { name: "Zancadas con mancuernas", muscleGroup: "legs", equipment: "dumbbell" },
+    { name: "Sentadilla bulgara", muscleGroup: "legs", equipment: "dumbbell" },
+    { name: "Elevacion de gemelos", muscleGroup: "legs", equipment: "machine" },
+    // Shoulders
+    { name: "Press militar", muscleGroup: "shoulders", equipment: "barbell" },
+    { name: "Press Arnold", muscleGroup: "shoulders", equipment: "dumbbell" },
+    { name: "Elevaciones laterales", muscleGroup: "shoulders", equipment: "dumbbell" },
+    { name: "Pajaros", muscleGroup: "shoulders", equipment: "dumbbell" },
+    { name: "Face pulls", muscleGroup: "shoulders", equipment: "machine" },
+    // Arms
+    { name: "Curl de biceps con barra", muscleGroup: "arms", equipment: "barbell" },
+    { name: "Curl con mancuernas alterno", muscleGroup: "arms", equipment: "dumbbell" },
+    { name: "Curl martillo", muscleGroup: "arms", equipment: "dumbbell" },
+    { name: "Extension de triceps polea", muscleGroup: "arms", equipment: "machine" },
+    { name: "Fondos de triceps", muscleGroup: "arms", equipment: "bodyweight" },
+    { name: "Press frances", muscleGroup: "arms", equipment: "barbell" },
+    // Core
+    { name: "Plancha", muscleGroup: "core", equipment: "bodyweight" },
+    { name: "Abdominales en polea", muscleGroup: "core", equipment: "machine" },
+    { name: "Elevaciones de piernas colgado", muscleGroup: "core", equipment: "bodyweight" },
+    { name: "Russian twist", muscleGroup: "core", equipment: "bodyweight" },
+    { name: "Ab wheel", muscleGroup: "core", equipment: "other" },
+    // Cardio
+    { name: "Caminadora", muscleGroup: "cardio", equipment: "machine" },
+    { name: "Bicicleta", muscleGroup: "cardio", equipment: "machine" },
+    { name: "Eliptica", muscleGroup: "cardio", equipment: "machine" },
+    { name: "Escaladora", muscleGroup: "cardio", equipment: "machine" },
+    { name: "Cuerda para saltar", muscleGroup: "cardio", equipment: "other" },
+  ];
+
+  for (const ex of exercises) {
+    await prisma.exercise.upsert({
+      where: { id: `ex-${ex.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}` },
+      update: {},
+      create: {
+        id: `ex-${ex.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+        ...ex,
+      },
+    });
+  }
+
   console.log("Seed completado exitosamente");
 }
 
