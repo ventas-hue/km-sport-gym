@@ -16,6 +16,7 @@ import {
   Trophy,
   MessageCircle,
   User,
+  Video as VideoIcon,
 } from "lucide-react";
 
 const memberNav: NavItem[] = [
@@ -29,6 +30,7 @@ const memberNav: NavItem[] = [
   { href: "/miembro/nutricion", label: "Nutricion", icon: Apple },
   { href: "/miembro/suplementos", label: "Suplementos", icon: Pill },
   { href: "/miembro/records", label: "Records", icon: Trophy },
+  { href: "/miembro/videos", label: "Videoteca", icon: VideoIcon },
   { href: "/miembro/mensajes", label: "Mensajes", icon: MessageCircle },
   { href: "/miembro/perfil", label: "Perfil", icon: User },
 ];

@@ -11,6 +11,7 @@ import {
   Video,
   ExternalLink,
 } from "lucide-react";
+import VideoEmbed from "./VideoEmbed";
 
 interface Exercise {
   id: string;
@@ -67,6 +68,7 @@ export default function ExerciseLibrary({ canEdit = true, canDelete = true }: Pr
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm);
+  const [preview, setPreview] = useState<Exercise | null>(null);
 
   const fetchList = useCallback(() => {
     setLoading(true);
@@ -202,15 +204,13 @@ export default function ExerciseLibrary({ canEdit = true, canDelete = true }: Pr
                   </p>
                 </div>
                 {ex.videoUrl && (
-                  <a
-                    href={ex.videoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={() => setPreview(ex)}
                     className="p-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"
                     title="Ver video"
                   >
                     <Video size={16} />
-                  </a>
+                  </button>
                 )}
               </div>
               {ex.description && (
@@ -361,6 +361,39 @@ export default function ExerciseLibrary({ canEdit = true, canDelete = true }: Pr
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {preview && preview.videoUrl && (
+        <div
+          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in"
+          onClick={() => setPreview(null)}
+        >
+          <div
+            className="bg-white rounded-2xl max-w-3xl w-full overflow-hidden animate-fade-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between p-4 border-b border-gray-100">
+              <div>
+                <h3 className="font-bold text-gray-900">{preview.name}</h3>
+                <p className="text-xs text-orange-600 font-semibold uppercase tracking-wider mt-0.5">
+                  {groupLabel(preview.muscleGroup)}
+                </p>
+              </div>
+              <button
+                onClick={() => setPreview(null)}
+                className="p-1 hover:bg-gray-100 rounded-lg"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <VideoEmbed url={preview.videoUrl} title={preview.name} autoplay thumbnailUrl={null} />
+            {preview.instructions && (
+              <div className="p-4 text-sm text-gray-700 whitespace-pre-wrap">
+                {preview.instructions}
+              </div>
+            )}
           </div>
         </div>
       )}

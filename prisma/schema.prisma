@@ -469,6 +469,26 @@ model SupplementLog {
 }
 
 // ============================================================
+// COACHING: Video library
+// ============================================================
+
+model Video {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  url          String
+  category     String // chest | back | legs | shoulders | arms | core | cardio | mobility | technique | tutorial
+  tags         String? // comma-separated
+  thumbnailUrl String?
+  durationSec  Int?
+  isPublic     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([category])
+}
+
+// ============================================================
 // COACHING: Messaging
 // ============================================================
 

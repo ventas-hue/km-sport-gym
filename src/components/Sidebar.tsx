@@ -18,6 +18,7 @@ import {
   Dumbbell,
   BookOpen,
   UserCog,
+  Video as VideoIcon,
   type LucideIcon,
 } from "lucide-react";
 import { useState } from "react";
@@ -40,6 +41,7 @@ const adminNav: NavItem[] = [
   { href: "/admin/expenses", label: "Gastos", icon: Receipt },
   { href: "/admin/exercises", label: "Ejercicios", icon: Dumbbell },
   { href: "/admin/routines", label: "Rutinas", icon: BookOpen },
+  { href: "/admin/videos", label: "Videoteca", icon: VideoIcon },
   { href: "/admin/coaches", label: "Coaches", icon: UserCog },
 ];
 

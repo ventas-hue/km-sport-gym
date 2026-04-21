@@ -10,6 +10,7 @@ import {
   Dumbbell,
   ClipboardCheck,
   MessageCircle,
+  Video as VideoIcon,
 } from "lucide-react";
 
 const coachNav: NavItem[] = [
@@ -18,6 +19,7 @@ const coachNav: NavItem[] = [
   { href: "/coach/rutinas", label: "Rutinas", icon: BookOpen },
   { href: "/coach/ejercicios", label: "Ejercicios", icon: Dumbbell },
   { href: "/coach/check-ins", label: "Check-ins", icon: ClipboardCheck },
+  { href: "/coach/videos", label: "Videoteca", icon: VideoIcon },
   { href: "/coach/mensajes", label: "Mensajes", icon: MessageCircle },
 ];
 
