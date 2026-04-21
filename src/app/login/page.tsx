@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "./AuthProvider";
+import { useRouter } from "next/navigation";
 import { Lock, Mail, Eye, EyeOff, ArrowLeft, User as UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function LoginScreen() {
-  const { login } = useAuth();
+export default function LoginPage() {
+  const router = useRouter();
   const [mode, setMode] = useState<"email" | "admin">("email");
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -19,10 +19,29 @@ export default function LoginScreen() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const role = await login(identifier, password, mode === "admin");
-    if (!role) {
-      setError("Credenciales incorrectas");
+    const body =
+      mode === "admin"
+        ? { username: identifier, password }
+        : { email: identifier, password };
+    const res = await fetch("/api/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const target =
+        data.role === "admin"
+          ? "/admin"
+          : data.role === "coach"
+          ? "/coach"
+          : "/miembro";
+      router.push(target);
+      router.refresh();
+      return;
     }
+    const data = await res.json().catch(() => ({ error: "Error" }));
+    setError(data.error || "Credenciales incorrectas");
     setLoading(false);
   };
 
@@ -36,7 +55,6 @@ export default function LoginScreen() {
               alt="LM Sport Gym"
               width={120}
               height={120}
-              className="drop-shadow-2xl"
               priority
             />
           </div>

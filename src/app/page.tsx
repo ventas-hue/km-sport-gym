@@ -198,17 +198,17 @@ export default function LandingPage() {
             </a>
           </nav>
           <div className="flex items-center gap-3">
-            <Link href="/admin" className="hidden sm:block">
+            <Link href="/login" className="hidden sm:block">
               <Button variant="ghost" size="sm">
                 Iniciar Sesion
               </Button>
             </Link>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+            <Link href="/registro">
               <Button size="sm" className="gap-1 font-semibold">
                 Unirme Ahora
                 <ChevronRight className="h-4 w-4" />
               </Button>
-            </a>
+            </Link>
           </div>
         </div>
       </header>
@@ -722,7 +722,8 @@ export default function LandingPage() {
                 <li><a href="#funciones" className="hover:text-white transition-colors">Funciones</a></li>
                 <li><a href="#planes" className="hover:text-white transition-colors">Planes</a></li>
                 <li><a href="#testimonios" className="hover:text-white transition-colors">Resultados</a></li>
-                <li><Link href="/admin" className="hover:text-white transition-colors">Iniciar Sesion</Link></li>
+                <li><Link href="/login" className="hover:text-white transition-colors">Iniciar Sesion</Link></li>
+              <li><Link href="/registro" className="hover:text-white transition-colors">Registro</Link></li>
               </ul>
             </div>
             <div>
