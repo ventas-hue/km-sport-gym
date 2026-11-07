@@ -30,43 +30,43 @@ const features = [
     icon: Dumbbell,
     title: "Gimnasio Completo",
     description:
-      "Instalaciones modernas con equipo profesional: peso libre, maquinas, cardio y area funcional. Todo lo que necesitas para entrenar.",
+      "Instalaciones modernas con equipo profesional: peso libre, máquinas, cardio y área funcional. Todo lo que necesitas para entrenar.",
   },
   {
     icon: CalendarCheck,
     title: "Rutinas Personalizadas",
     description:
-      "Programas disenados por Karla especificamente para ti, con series, repeticiones y videos demostrativos de cada ejercicio.",
+      "Programas diseñados por Karla específicamente para ti, con series, repeticiones y videos demostrativos de cada ejercicio.",
   },
   {
     icon: Video,
     title: "Videos de Cada Ejercicio",
     description:
-      "Aprende la tecnica correcta con videos de cada movimiento. Entrena con confianza dentro o fuera del gym.",
+      "Aprende la técnica correcta con videos de cada movimiento. Entrena con confianza dentro o fuera del gym.",
   },
   {
     icon: TrendingUp,
     title: "Seguimiento de Progreso",
     description:
-      "Graficos interactivos de peso, medidas corporales y porcentaje de grasa. Mira tu evolucion en tiempo real.",
+      "Gráficos interactivos de peso, medidas corporales y porcentaje de grasa. Mira tu evolución en tiempo real.",
   },
   {
     icon: Camera,
     title: "Fotos de Progreso",
     description:
-      "Comparador antes/despues con fotos frontales, laterales y de espalda. Tu transformacion visible.",
+      "Comparador antes/después con fotos frontales, laterales y de espalda. Tu transformación visible.",
   },
   {
     icon: Apple,
-    title: "Asesoria Nutricional",
+    title: "Asesoría Nutricional",
     description:
-      "Planes de alimentacion personalizados que complementan tu entrenamiento para resultados optimos.",
+      "Planes de alimentación personalizados que complementan tu entrenamiento para resultados óptimos.",
   },
   {
     icon: MessageCircle,
-    title: "Comunicacion Directa",
+    title: "Comunicación Directa",
     description:
-      "Chat directo con tu coach. Resuelve dudas, recibe motivacion y retroalimentacion al instante.",
+      "Chat directo con tu coach. Resuelve dudas, recibe motivación y retroalimentación al instante.",
   },
   {
     icon: Shield,
@@ -78,14 +78,14 @@ const features = [
 
 const plans = [
   {
-    name: "Mensual Basico",
+    name: "Mensual Básico",
     price: "$300",
     period: "/mes",
-    description: "Acceso al gimnasio 30 dias",
+    description: "Acceso al gimnasio 30 días",
     features: [
       "Acceso ilimitado al gym",
       "Equipo completo de fuerza",
-      "Area de cardio",
+      "Área de cardio",
       "Vestidores y regaderas",
       "Horario extendido",
     ],
@@ -101,7 +101,7 @@ const plans = [
       "Todo el plan Mensual",
       "Rutina personalizada con videos",
       "Fotos y medidas de progreso",
-      "Asesoria nutricional",
+      "Asesoría nutricional",
       "Chat directo con Karla",
       "Ajustes quincenales",
     ],
@@ -112,11 +112,11 @@ const plans = [
     name: "VIP 1 a 1",
     price: "$1,499",
     period: "/mes",
-    description: "Atencion 100% personalizada",
+    description: "Atención 100% personalizada",
     features: [
       "Todo el plan Premium",
       "Videollamadas mensuales con Karla",
-      "Plan de suplementacion",
+      "Plan de suplementación",
       "Ajustes semanales",
       "Grupo exclusivo VIP",
       "Soporte prioritario 24/7",
@@ -128,37 +128,37 @@ const plans = [
 
 const testimonials = [
   {
-    name: "Andrea Lopez",
-    result: "Perdio 12 kg en 3 meses",
+    name: "Andrea López",
+    result: "Perdió 12 kg en 3 meses",
     content:
-      "Karla me diseno una rutina que pude seguir en el gym y desde casa. Los videos me ayudaron a hacer cada ejercicio correctamente. Estoy feliz con mis resultados!",
+      "Karla me diseñó una rutina que pude seguir en el gym y desde casa. Los videos me ayudaron a hacer cada ejercicio correctamente. ¡Estoy feliz con mis resultados!",
     rating: 5,
   },
   {
-    name: "Sofia Ramirez",
-    result: "Gano masa muscular",
+    name: "Sofía Ramírez",
+    result: "Ganó masa muscular",
     content:
-      "La asesoria de Karla es increible. Cada rutina esta pensada para mi nivel y mis objetivos. Las fotos de progreso me mantienen motivada.",
+      "La asesoría de Karla es increíble. Cada rutina está pensada para mi nivel y mis objetivos. Las fotos de progreso me mantienen motivada.",
     rating: 5,
   },
   {
     name: "Diana Torres",
-    result: "Transformacion total",
+    result: "Transformación total",
     content:
-      "En 6 meses cambie mi cuerpo y mi mentalidad. El seguimiento de medidas y la comunicacion constante con el equipo hicieron toda la diferencia.",
+      "En 6 meses cambié mi cuerpo y mi mentalidad. El seguimiento de medidas y la comunicación constante con el equipo hicieron toda la diferencia.",
     rating: 5,
   },
 ];
 
 const stats = [
   { value: "500+", label: "Transformaciones" },
-  { value: "5+", label: "Anos de experiencia" },
+  { value: "5+", label: "Años de experiencia" },
   { value: "98%", label: "Clientes satisfechos" },
   { value: "24/7", label: "Soporte disponible" },
 ];
 
 const WHATSAPP_URL =
-  "https://wa.me/5214431234567?text=Hola%20Karla%2C%20quiero%20informacion%20sobre%20LM%20Sport%20Gym";
+  "https://wa.me/5214431234567?text=Hola%20Karla%2C%20quiero%20informaci%C3%B3n%20sobre%20LM%20Sport%20Gym";
 
 export default function LandingPage() {
   return (
@@ -185,7 +185,7 @@ export default function LandingPage() {
           </Link>
           <nav className="hidden items-center gap-8 md:flex">
             <a href="#conoceme" className="text-sm font-medium text-gray-400 transition-colors hover:text-white">
-              Conoceme
+              Conóceme
             </a>
             <a href="#funciones" className="text-sm font-medium text-gray-400 transition-colors hover:text-white">
               Funciones
@@ -200,7 +200,7 @@ export default function LandingPage() {
           <div className="flex items-center gap-3">
             <Link href="/login" className="hidden sm:block">
               <Button variant="ghost" size="sm">
-                Iniciar Sesion
+                Iniciar Sesión
               </Button>
             </Link>
             <Link href="/registro">
@@ -240,7 +240,7 @@ export default function LandingPage() {
                 <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row">
                   <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                     <Button size="lg" className="gap-2 px-8 font-semibold animate-pulse-glow">
-                      Comenzar Mi Transformacion
+                      Comenzar Mi Transformación
                       <ArrowRight className="h-4 w-4" />
                     </Button>
                   </a>
@@ -257,7 +257,7 @@ export default function LandingPage() {
                   </span>
                   <span className="flex items-center gap-1.5">
                     <Clock className="h-4 w-4 text-orange-400" />
-                    Lun a Sab 5:30 - 22:00
+                    Lun a Sáb 5:30 - 22:00
                   </span>
                 </div>
               </div>
@@ -338,7 +338,7 @@ export default function LandingPage() {
                   <div className="group relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10">
                     <Image
                       src="/karla-hero.jpg"
-                      alt="Karla Lizeth - sesion profesional"
+                      alt="Karla Lizeth - sesión profesional"
                       width={400}
                       height={300}
                       className="h-[200px] w-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
@@ -391,18 +391,18 @@ export default function LandingPage() {
                   <p>
                     Atleta de <strong className="text-white">wellness fitness</strong> con
                     experiencia en competencias nacionales FMFF, y coach certificada
-                    apasionada por ayudar a otras mujeres y hombres a alcanzar su mejor version.
+                    apasionada por ayudar a otras mujeres y hombres a alcanzar su mejor versión.
                   </p>
                   <p>
-                    Mi enfoque combina entrenamiento inteligente con nutricion
-                    personalizada. No creo en dietas extremas ni rutinas genericas.
-                    Cada programa que diseno esta pensado para{" "}
+                    Mi enfoque combina entrenamiento inteligente con nutrición
+                    personalizada. No creo en dietas extremas ni rutinas genéricas.
+                    Cada programa que diseño está pensado para{" "}
                     <strong className="text-white">tu cuerpo, tu nivel y tus metas</strong>.
                   </p>
                   <p>
-                    En LM Sport Gym podras entrenar en sitio con equipo profesional o
+                    En LM Sport Gym podrás entrenar en sitio con equipo profesional o
                     llevar tu programa desde cualquier lugar con rutinas en video,
-                    seguimiento de progreso y comunicacion directa conmigo.
+                    seguimiento de progreso y comunicación directa conmigo.
                   </p>
                 </div>
                 <div className="mt-8 grid grid-cols-3 gap-4">
@@ -439,13 +439,13 @@ export default function LandingPage() {
           <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
               <Badge variant="secondary" className="mb-4 border border-orange-500/30 bg-orange-500/10 text-orange-300">
-                Que Incluye
+                Qué Incluye
               </Badge>
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
                 Todo lo que necesitas para alcanzar tus metas
               </h2>
               <p className="mt-4 text-lg text-gray-400">
-                Un sistema completo disenado por Karla Lizeth para guiarte hacia tu mejor version.
+                Un sistema completo diseñado por Karla Lizeth para guiarte hacia tu mejor versión.
               </p>
             </div>
             <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -474,10 +474,10 @@ export default function LandingPage() {
           <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
               <Badge variant="secondary" className="mb-4 border border-orange-500/30 bg-orange-500/10 text-orange-300">
-                Como Funciona
+                Cómo Funciona
               </Badge>
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Tu transformacion en 3 pasos
+                Tu transformación en 3 pasos
               </h2>
             </div>
             <div className="mt-16 grid gap-8 md:grid-cols-3">
@@ -485,20 +485,20 @@ export default function LandingPage() {
                 {
                   step: "01",
                   icon: Heart,
-                  title: "Cuentame tu objetivo",
-                  desc: "Escribeme por WhatsApp y dime que quieres lograr: bajar de peso, tonificar, ganar masa muscular o mejorar tu salud.",
+                  title: "Cuéntame tu objetivo",
+                  desc: "Escríbeme por WhatsApp y dime qué quieres lograr: bajar de peso, tonificar, ganar masa muscular o mejorar tu salud.",
                 },
                 {
                   step: "02",
                   icon: CalendarCheck,
                   title: "Recibe tu programa",
-                  desc: "Diseno tu rutina personalizada con videos, series y repeticiones adaptadas a tu nivel y disponibilidad.",
+                  desc: "Diseño tu rutina personalizada con videos, series y repeticiones adaptadas a tu nivel y disponibilidad.",
                 },
                 {
                   step: "03",
                   icon: BarChart3,
                   title: "Mide tu progreso",
-                  desc: "Sube fotos, registra medidas y mira tus graficos. Ajusto tu rutina segun tus resultados.",
+                  desc: "Sube fotos, registra medidas y mira tus gráficos. Ajusto tu rutina según tus resultados.",
                 },
               ].map((item) => (
                 <div key={item.step} className="group relative text-center">
@@ -527,7 +527,7 @@ export default function LandingPage() {
                 Invierte en ti
               </h2>
               <p className="mt-4 text-lg text-gray-400">
-                Elige el plan que mejor se adapte a tus metas. Todos incluyen atencion personalizada.
+                Elige el plan que mejor se adapte a tus metas. Todos incluyen atención personalizada.
               </p>
             </div>
             <div className="mt-16 grid gap-8 md:grid-cols-3">
@@ -543,7 +543,7 @@ export default function LandingPage() {
                   {plan.popular && (
                     <div className="absolute right-4 top-4">
                       <Badge className="bg-orange-500 text-white shadow-lg shadow-orange-500/30">
-                        Mas Popular
+                        Más Popular
                       </Badge>
                     </div>
                   )}
@@ -590,7 +590,7 @@ export default function LandingPage() {
                 Resultados Reales
               </Badge>
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Historias de transformacion
+                Historias de transformación
               </h2>
             </div>
             <div className="mt-16 grid gap-8 md:grid-cols-3">
@@ -651,10 +651,10 @@ export default function LandingPage() {
                   className="mx-auto mb-6 animate-float lg:mx-0"
                 />
                 <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-                  Tu mejor version te esta esperando
+                  Tu mejor versión te está esperando
                 </h2>
                 <p className="mt-4 text-lg text-gray-400">
-                  Unete a mas de 500 personas que ya transformaron su vida con
+                  Únete a más de 500 personas que ya transformaron su vida con
                   LM Sport Gym. Da el primer paso hoy con Karla.
                 </p>
                 <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row lg:items-start">
@@ -713,7 +713,7 @@ export default function LandingPage() {
               </Link>
               <p className="mt-4 text-sm text-gray-500">
                 Coaching fitness profesional por Karla Lizeth Merlos.
-                Transformando vidas a traves del ejercicio y la nutricion.
+                Transformando vidas a través del ejercicio y la nutrición.
               </p>
             </div>
             <div>
@@ -722,7 +722,7 @@ export default function LandingPage() {
                 <li><a href="#funciones" className="hover:text-white transition-colors">Funciones</a></li>
                 <li><a href="#planes" className="hover:text-white transition-colors">Planes</a></li>
                 <li><a href="#testimonios" className="hover:text-white transition-colors">Resultados</a></li>
-                <li><Link href="/login" className="hover:text-white transition-colors">Iniciar Sesion</Link></li>
+                <li><Link href="/login" className="hover:text-white transition-colors">Iniciar Sesión</Link></li>
               <li><Link href="/registro" className="hover:text-white transition-colors">Registro</Link></li>
               </ul>
             </div>
@@ -742,7 +742,7 @@ export default function LandingPage() {
               <h4 className="mb-4 text-sm font-semibold text-gray-300">Legal</h4>
               <ul className="space-y-2 text-sm text-gray-500">
                 <li><a href="#" className="hover:text-white transition-colors">Privacidad</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Terminos</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Términos</a></li>
               </ul>
             </div>
           </div>

@@ -82,7 +82,7 @@ export default function RegistroPage() {
                     value={form.firstName}
                     onChange={update("firstName")}
                     className="w-full pl-9 pr-3 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 text-sm"
-                    placeholder="Maria"
+                    placeholder="María"
                   />
                 </div>
               </div>
@@ -93,7 +93,7 @@ export default function RegistroPage() {
                   value={form.lastName}
                   onChange={update("lastName")}
                   className="w-full px-3 py-2.5 bg-white/[0.03] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 text-sm"
-                  placeholder="Lopez"
+                  placeholder="López"
                 />
               </div>
             </div>
