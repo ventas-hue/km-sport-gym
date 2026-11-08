@@ -7,7 +7,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="admin-theme min-h-screen bg-[#f3f4f6] text-[#1f2937]">
+    <div className="admin-theme min-h-screen bg-black text-white">
       <AuthProvider>
         <AppShell>{children}</AppShell>
       </AuthProvider>

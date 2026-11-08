@@ -1,55 +1,212 @@
 @import "tailwindcss";
 
 @theme inline {
+  /* Apple-inspired palette (dark) */
   --color-primary: #f97316;
   --color-primary-dark: #ea580c;
   --color-primary-light: #fed7aa;
-  --color-sidebar: #1e1e2e;
-  --color-sidebar-hover: #2a2a3e;
-  --color-sidebar-active: #f97316;
-  --color-card: #ffffff;
-  --color-card-border: #e5e7eb;
-  --color-success: #22c55e;
-  --color-warning: #eab308;
-  --color-danger: #ef4444;
-  --color-info: #3b82f6;
-  --font-sans: "Inter", system-ui, sans-serif;
+
+  --color-bg: #000000;
+  --color-bg-elevated: #0a0a0a;
+  --color-surface: rgba(255, 255, 255, 0.04);
+  --color-surface-hover: rgba(255, 255, 255, 0.07);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+
+  --color-sidebar: rgba(10, 10, 10, 0.72);
+  --color-sidebar-hover: rgba(255, 255, 255, 0.06);
+  --color-sidebar-active: rgba(249, 115, 22, 0.14);
+
+  --color-card: rgba(255, 255, 255, 0.03);
+  --color-card-border: rgba(255, 255, 255, 0.08);
+
+  --color-success: #30d158;
+  --color-warning: #ffd60a;
+  --color-danger: #ff453a;
+  --color-info: #0a84ff;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Inter", "Segoe UI", Roboto, system-ui, sans-serif;
+
+  /* Apple-style radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
 }
 
 * {
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html, body {
-  background: #0a0a0a;
-  color: #f5f5f5;
+  background: #000;
+  color: #f5f5f7;
   font-family: var(--font-sans);
+  letter-spacing: -0.011em;
+  font-feature-settings: "ss01", "cv11";
 }
 
-/* Admin keeps its light theme wherever AdminLayout sets it */
+/* Apple-style dark theme for internal modules (admin / coach / miembro).
+   Overrides the legacy light-mode Tailwind classes used across pages so
+   all surfaces follow the global dark vibe without touching each file. */
 .admin-theme {
-  background: #f3f4f6;
-  color: #1f2937;
+  background: #000;
+  color: #f5f5f7;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #404040; }
+/* Backgrounds */
+.admin-theme .bg-white,
+.admin-theme .bg-gray-50,
+.admin-theme .bg-gray-100 {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+}
+.admin-theme .bg-gray-200 { background-color: rgba(255, 255, 255, 0.08) !important; }
+.admin-theme .bg-gray-300 { background-color: rgba(255, 255, 255, 0.12) !important; }
 
-.admin-theme ::-webkit-scrollbar-thumb { background: #d1d5db; }
-.admin-theme ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+.admin-theme .hover\:bg-gray-50:hover,
+.admin-theme .hover\:bg-gray-100:hover {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+}
+.admin-theme .hover\:bg-white:hover {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Text colors */
+.admin-theme .text-gray-900,
+.admin-theme .text-black {
+  color: #f5f5f7 !important;
+}
+.admin-theme .text-gray-800,
+.admin-theme .text-gray-700 {
+  color: rgba(245, 245, 247, 0.9) !important;
+}
+.admin-theme .text-gray-600 {
+  color: rgba(235, 235, 245, 0.6) !important;
+}
+.admin-theme .text-gray-500 {
+  color: rgba(235, 235, 245, 0.5) !important;
+}
+.admin-theme .text-gray-400 {
+  color: rgba(235, 235, 245, 0.4) !important;
+}
+
+/* Borders */
+.admin-theme .border,
+.admin-theme .border-gray-100,
+.admin-theme .border-gray-200,
+.admin-theme .border-gray-300 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+.admin-theme .divide-gray-100 > :not([hidden]) ~ :not([hidden]),
+.admin-theme .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Form controls */
+.admin-theme input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.admin-theme select,
+.admin-theme textarea {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  color: #f5f5f7 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+.admin-theme input:focus,
+.admin-theme select:focus,
+.admin-theme textarea:focus {
+  border-color: rgba(249, 115, 22, 0.5) !important;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+.admin-theme select option {
+  background-color: #141416;
+  color: #f5f5f7;
+}
+
+/* Soft shadows — swap bright Tailwind shadows for darker Apple-style ones */
+.admin-theme .shadow,
+.admin-theme .shadow-sm,
+.admin-theme .shadow-md,
+.admin-theme .shadow-lg,
+.admin-theme .shadow-xl,
+.admin-theme .shadow-2xl {
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.04) inset,
+              0 10px 30px -20px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Rounded corners — bump to Apple-like radius on cards */
+.admin-theme .rounded-lg,
+.admin-theme .rounded-md {
+  border-radius: 12px !important;
+}
+.admin-theme .rounded-xl {
+  border-radius: 16px !important;
+}
+.admin-theme .rounded-2xl {
+  border-radius: 20px !important;
+}
+
+/* Tables — thin dividers instead of solid white rows */
+.admin-theme table {
+  background: transparent !important;
+}
+.admin-theme thead tr,
+.admin-theme tbody tr {
+  background: transparent !important;
+}
+.admin-theme tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+.admin-theme th {
+  color: rgba(235, 235, 245, 0.5) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 11px !important;
+}
+
+/* Apple-like thin scrollbars */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover { background-color: rgba(255, 255, 255, 0.22); }
+
+.admin-theme ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); }
+.admin-theme ::-webkit-scrollbar-thumb:hover { background-color: rgba(255, 255, 255, 0.22); }
+
+/* Soft vibrancy glass surface (used by cards, menus) */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+}
+
+.glass-strong {
+  background: rgba(20, 20, 22, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: saturate(180%) blur(32px);
+  -webkit-backdrop-filter: saturate(180%) blur(32px);
+}
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.animate-fade-in { animation: fadeIn 0.3s ease-out; }
+.animate-fade-in { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .animate-fade-in-up { animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -58,7 +215,7 @@ html, body {
   from { opacity: 0; transform: translateX(-12px); }
   to { opacity: 1; transform: translateX(0); }
 }
-.animate-slide-in { animation: slideIn 0.3s ease-out; }
+.animate-slide-in { animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
@@ -66,18 +223,13 @@ html, body {
 }
 .animate-float { animation: float 6s ease-in-out infinite; }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); }
   50% { box-shadow: 0 0 40px rgba(249, 115, 22, 0.5); }
 }
 .animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
 
-/* Gradient text utility */
+/* Gradient text */
 .gradient-text {
   background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
   -webkit-background-clip: text;
@@ -85,11 +237,13 @@ html, body {
   color: transparent;
 }
 
-/* Modal overlay */
+/* Modal overlay — Apple-style vibrancy */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -99,3 +253,16 @@ html, body {
 
 /* Smooth scroll */
 html { scroll-behavior: smooth; }
+
+/* Form controls — Apple-style defaults */
+input, select, textarea {
+  font-family: var(--font-sans);
+}
+input::placeholder, textarea::placeholder {
+  color: rgba(235, 235, 245, 0.3);
+}
+
+/* Focus ring — thin and tinted */
+*:focus-visible {
+  outline: none;
+}

@@ -25,7 +25,7 @@ const coachNav: NavItem[] = [
 
 export default function CoachLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="admin-theme min-h-screen bg-[#f3f4f6] text-[#1f2937]">
+    <div className="admin-theme min-h-screen bg-black text-white">
       <AuthProvider>
         <AppShell requireRole="coach" sidebar={<Sidebar items={coachNav} homeHref="/coach" />}>
           {children}

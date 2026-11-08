@@ -27,7 +27,7 @@ const memberNav: NavItem[] = [
   { href: "/miembro/wellness", label: "Wellness", icon: Heart },
   { href: "/miembro/check-in", label: "Check-in", icon: ClipboardCheck },
   { href: "/miembro/objetivos", label: "Objetivos", icon: Target },
-  { href: "/miembro/nutricion", label: "Nutricion", icon: Apple },
+  { href: "/miembro/nutricion", label: "Nutrición", icon: Apple },
   { href: "/miembro/suplementos", label: "Suplementos", icon: Pill },
   { href: "/miembro/records", label: "Records", icon: Trophy },
   { href: "/miembro/videos", label: "Videoteca", icon: VideoIcon },
@@ -37,7 +37,7 @@ const memberNav: NavItem[] = [
 
 export default function MiembroLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="admin-theme min-h-screen bg-[#f3f4f6] text-[#1f2937]">
+    <div className="admin-theme min-h-screen bg-black text-white">
       <AuthProvider>
         <AppShell
           requireRole="member"
