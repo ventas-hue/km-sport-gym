@@ -10,6 +10,7 @@ import {
   Ruler,
   Heart,
   ClipboardCheck,
+  ClipboardList,
   Target,
   Apple,
   Pill,
@@ -21,6 +22,7 @@ import {
 
 const memberNav: NavItem[] = [
   { href: "/miembro", label: "Inicio", icon: LayoutDashboard },
+  { href: "/miembro/ficha", label: "Mi Ficha", icon: ClipboardList },
   { href: "/miembro/rutina", label: "Mi Rutina", icon: Dumbbell },
   { href: "/miembro/progreso", label: "Progreso", icon: Camera },
   { href: "/miembro/medidas", label: "Medidas", icon: Ruler },

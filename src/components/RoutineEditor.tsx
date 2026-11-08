@@ -11,6 +11,7 @@ import {
   X,
   GripVertical,
   User as UserIcon,
+  FileDown,
 } from "lucide-react";
 
 interface Exercise {
@@ -235,6 +236,16 @@ export default function RoutineEditor({ workoutId, backHref }: Props) {
           <ArrowLeft size={16} /> Volver
         </Link>
         <div className="flex-1" />
+        <a
+          href={`/routines/${workoutId}/pdf`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-white/15 bg-white/[0.04] text-white text-sm font-medium hover:bg-white/[0.08] transition"
+          title="Abrir vista imprimible / PDF / compartir"
+        >
+          <FileDown size={16} />
+          PDF / Enviar
+        </a>
         <button
           onClick={save}
           disabled={saving}

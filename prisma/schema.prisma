@@ -76,6 +76,58 @@ model Client {
   mealLogs         MealLog[]
   supplements      Supplement[]
   personalRecords  PersonalRecord[]
+  profile          ClientProfile?
+}
+
+// Ficha fitness completa para armar dieta y rutina
+model ClientProfile {
+  id                    String   @id @default(cuid())
+  clientId              String   @unique
+  // Datos personales / antropométricos
+  gender                String? // "M" | "F" | "other"
+  age                   Int?
+  heightCm              Float?
+  initialWeight         Float?
+  // Objetivo y experiencia
+  mainGoal              String? // "lose_fat" | "gain_muscle" | "tone" | "maintain" | "performance" | "health"
+  secondaryGoal         String?
+  targetWeight          Float?
+  experienceLevel       String? // "beginner" | "intermediate" | "advanced"
+  trainingYears         Float?
+  activityLevel         String? // "sedentary" | "light" | "moderate" | "active" | "very_active"
+  // Disponibilidad
+  daysPerWeek           Int?
+  minutesPerSession     Int?
+  preferredTime         String? // "morning" | "afternoon" | "evening"
+  trainsAt              String? // "gym" | "home" | "both"
+  equipmentAvailable    String? // comma-separated
+  // Salud
+  injuries              String? // texto libre
+  medicalConditions     String?
+  medications           String?
+  pregnantOrBreastfeed  Boolean?
+  smokes                Boolean?
+  alcoholFreq           String? // "none" | "social" | "weekly" | "daily"
+  // Nutrición
+  diet                  String? // "omnivore" | "vegetarian" | "vegan" | "keto" | "paleo" | "other"
+  allergies             String?
+  intolerances          String?
+  foodsDisliked         String?
+  foodsPreferred        String?
+  mealsPerDay           Int?
+  waterLitersPerDay     Float?
+  budgetPerWeek         Float?
+  cookingSkill          String? // "none" | "basic" | "intermediate" | "advanced"
+  // Hábitos
+  sleepHours            Float?
+  stressLevel           Int? // 1..10
+  jobActivity           String? // "sedentary" | "mixed" | "active" | "very_active"
+  currentSupplements    String?
+  // Notas
+  notes                 String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  client                Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
 }
 
 model Package {

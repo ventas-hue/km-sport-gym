@@ -3,7 +3,14 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { BookOpen, Plus, User as UserIcon, Layers, Trash2 } from "lucide-react";
+import {
+  BookOpen,
+  Plus,
+  User as UserIcon,
+  Layers,
+  Trash2,
+  FileDown,
+} from "lucide-react";
 
 interface Workout {
   id: string;
@@ -129,6 +136,16 @@ export default function RoutinesList({ basePath }: Props) {
                     </p>
                   )}
                 </Link>
+                <a
+                  href={`/routines/${w.id}/pdf`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="p-1.5 text-white/60 hover:text-orange-400 hover:bg-white/5 rounded-lg transition-colors shrink-0"
+                  title="Abrir vista imprimible / PDF / enviar"
+                >
+                  <FileDown size={14} />
+                </a>
                 <button
                   onClick={() => remove(w.id)}
                   className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
