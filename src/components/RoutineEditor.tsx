@@ -12,6 +12,7 @@ import {
   GripVertical,
   User as UserIcon,
   FileDown,
+  Sparkles,
 } from "lucide-react";
 
 interface Exercise {
@@ -236,6 +237,70 @@ export default function RoutineEditor({ workoutId, backHref }: Props) {
           <ArrowLeft size={16} /> Volver
         </Link>
         <div className="flex-1" />
+        <button
+          onClick={async () => {
+            if (!clientId) {
+              alert("Asigna primero el cliente para generar con IA.");
+              return;
+            }
+            const notes = prompt(
+              "Notas para la IA (opcional). Ej: enfocado en pierna, evitar peso muerto..."
+            );
+            if (notes === null) return;
+            try {
+              const res = await fetch("/api/ai/generate-routine", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ clientId, instructions: notes || undefined }),
+              });
+              const data = await res.json();
+              if (!res.ok) {
+                alert(data.detail ?? data.error ?? "No se pudo generar");
+                return;
+              }
+              setName(data.name);
+              setDescription(data.description);
+              type AiExRow = {
+                exerciseId: string;
+                sets: number;
+                reps: string;
+                restSeconds: number;
+                notes: string;
+                order: number;
+              };
+              type AiDayRow = {
+                dayNumber: number;
+                name: string;
+                notes: string;
+                exercises: AiExRow[];
+              };
+              setDays(
+                (data.days as AiDayRow[]).map((d) => ({
+                  dayNumber: d.dayNumber,
+                  name: d.name,
+                  notes: d.notes,
+                  exercises: d.exercises.map((e) => ({
+                    exerciseId: e.exerciseId,
+                    sets: e.sets,
+                    reps: e.reps,
+                    weight: null,
+                    restSeconds: e.restSeconds,
+                    notes: e.notes ?? "",
+                    order: e.order,
+                    exercise: exerciseLib.find((x) => x.id === e.exerciseId),
+                  })),
+                }))
+              );
+            } catch {
+              alert("Error al contactar la IA");
+            }
+          }}
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-orange-500/40 bg-orange-500/10 text-orange-300 text-sm font-medium hover:bg-orange-500/20 transition"
+          title="Generar rutina con IA a partir de la ficha del cliente"
+        >
+          <Sparkles size={16} />
+          Generar con IA
+        </button>
         <a
           href={`/routines/${workoutId}/pdf`}
           target="_blank"

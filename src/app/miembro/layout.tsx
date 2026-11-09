@@ -18,10 +18,14 @@ import {
   MessageCircle,
   User,
   Video as VideoIcon,
+  QrCode,
+  CreditCard,
 } from "lucide-react";
 
 const memberNav: NavItem[] = [
   { href: "/miembro", label: "Inicio", icon: LayoutDashboard },
+  { href: "/miembro/qr", label: "Mi QR", icon: QrCode },
+  { href: "/miembro/pagos", label: "Pagar", icon: CreditCard },
   { href: "/miembro/ficha", label: "Mi Ficha", icon: ClipboardList },
   { href: "/miembro/rutina", label: "Mi Rutina", icon: Dumbbell },
   { href: "/miembro/progreso", label: "Progreso", icon: Camera },

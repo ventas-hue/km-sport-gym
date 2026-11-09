@@ -1,0 +1,25 @@
+{
+  "name": "LM Sport Gym",
+  "short_name": "LM Sport",
+  "description": "Entrena con Karla Lizeth. Rutinas, nutrición y progreso.",
+  "start_url": "/miembro",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#f97316",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

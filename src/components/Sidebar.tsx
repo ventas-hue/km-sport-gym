@@ -19,6 +19,8 @@ import {
   BookOpen,
   UserCog,
   Video as VideoIcon,
+  ScanLine,
+  MessageCircle,
   type LucideIcon,
 } from "lucide-react";
 import { useState } from "react";
@@ -32,6 +34,8 @@ export interface NavItem {
 
 const adminNav: NavItem[] = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/outreach", label: "A contactar hoy", icon: MessageCircle },
+  { href: "/admin/attendance", label: "Asistencias", icon: ScanLine },
   { href: "/admin/clients", label: "Clientes", icon: Users },
   { href: "/admin/packages", label: "Paquetes", icon: Package },
   { href: "/admin/memberships", label: "Membresías", icon: CreditCard },

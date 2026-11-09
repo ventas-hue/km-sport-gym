@@ -77,6 +77,9 @@ model Client {
   supplements      Supplement[]
   personalRecords  PersonalRecord[]
   profile          ClientProfile?
+  attendances      Attendance[]
+  payments         Payment[]
+  qrToken          String?       @unique
 }
 
 // Ficha fitness completa para armar dieta y rutina
@@ -557,4 +560,80 @@ model Message {
 
   @@index([senderId, recipientId])
   @@index([recipientId, readAt])
+}
+
+// ============================================================
+// GYM OPERATIONS: Attendance (QR check-in)
+// ============================================================
+
+model Attendance {
+  id        String   @id @default(cuid())
+  clientId  String
+  checkedAt DateTime @default(now())
+  method    String   @default("qr") // "qr" | "manual"
+  source    String?  // user id or admin name that scanned
+  notes     String?
+  client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId, checkedAt])
+  @@index([checkedAt])
+}
+
+// ============================================================
+// PAYMENTS: Mercado Pago (and future providers)
+// ============================================================
+
+model Payment {
+  id              String    @id @default(cuid())
+  clientId        String?
+  membershipId    String?
+  provider        String    @default("mercadopago") // mercadopago | stripe | cash | transfer
+  providerRef     String?   @unique // e.g. MP payment id / preference id
+  preferenceId    String?   @unique
+  amount          Float
+  currency        String    @default("MXN")
+  status          String    @default("pending") // pending | approved | rejected | refunded | cancelled
+  method          String?   // credit_card | debit_card | oxxo | spei | other
+  description     String?
+  payerEmail      String?
+  payerName       String?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  paidAt          DateTime?
+  client          Client?   @relation(fields: [clientId], references: [id], onDelete: SetNull)
+
+  @@index([clientId, createdAt])
+  @@index([status])
+}
+
+// ============================================================
+// NOTIFICATIONS: PWA web push + log
+// ============================================================
+
+model PushDevice {
+  id         String   @id @default(cuid())
+  userId     String
+  endpoint   String   @unique
+  p256dh     String
+  auth       String
+  userAgent  String?
+  createdAt  DateTime @default(now())
+  lastUsedAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model NotificationLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  clientId  String?
+  kind      String   // "membership_expiry" | "workout_reminder" | "coach_alert" | "payment" | "generic"
+  channel   String   // "push" | "whatsapp" | "email" | "inapp"
+  payload   Json
+  sentAt    DateTime @default(now())
+  readAt    DateTime?
+
+  @@index([userId, sentAt])
+  @@index([clientId, sentAt])
 }
