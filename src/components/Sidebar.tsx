@@ -22,6 +22,7 @@ import {
   ScanLine,
   MessageCircle,
   Newspaper,
+  Link2,
   type LucideIcon,
 } from "lucide-react";
 import { useState } from "react";
@@ -35,6 +36,7 @@ export interface NavItem {
 
 const adminNav: NavItem[] = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/invites", label: "Invitaciones", icon: Link2 },
   { href: "/admin/posts", label: "Publicaciones", icon: Newspaper },
   { href: "/admin/outreach", label: "A contactar hoy", icon: MessageCircle },
   { href: "/admin/attendance", label: "Asistencias", icon: ScanLine },

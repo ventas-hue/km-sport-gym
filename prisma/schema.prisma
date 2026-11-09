@@ -679,3 +679,27 @@ model PostImage {
 
   @@unique([postId, order])
 }
+
+// ============================================================
+// CLIENT INVITATIONS: magic-link onboarding
+// ============================================================
+
+model ClientInvite {
+  id         String    @id @default(cuid())
+  token      String    @unique
+  clientId   String?   // si se invita a un cliente existente
+  email      String?
+  firstName  String?
+  lastName   String?
+  phone      String?
+  packageId  String?   // paquete sugerido (opcional)
+  createdBy  String    // userId o email del coach/admin que lo creó
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime
+  usedAt     DateTime?
+  acceptedBy String?   // userId del User creado/vinculado al aceptar
+  revokedAt  DateTime?
+
+  @@index([clientId])
+  @@index([email])
+}

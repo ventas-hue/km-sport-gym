@@ -3,6 +3,7 @@
 import AuthProvider from "@/components/AuthProvider";
 import AppShell from "@/components/AppShell";
 import Sidebar, { type NavItem } from "@/components/Sidebar";
+import MemberTabBar from "@/components/MemberTabBar";
 import {
   LayoutDashboard,
   Dumbbell,
@@ -23,7 +24,7 @@ import {
 } from "lucide-react";
 
 const memberNav: NavItem[] = [
-  { href: "/miembro", label: "Inicio", icon: LayoutDashboard },
+  { href: "/miembro", label: "Hoy", icon: LayoutDashboard },
   { href: "/miembro/qr", label: "Mi QR", icon: QrCode },
   { href: "/miembro/pagos", label: "Pagar", icon: CreditCard },
   { href: "/miembro/ficha", label: "Mi Ficha", icon: ClipboardList },
@@ -49,8 +50,9 @@ export default function MiembroLayout({ children }: { children: React.ReactNode 
           requireRole="member"
           sidebar={<Sidebar items={memberNav} homeHref="/miembro" />}
         >
-          {children}
+          <div className="pb-20 lg:pb-0">{children}</div>
         </AppShell>
+        <MemberTabBar />
       </AuthProvider>
     </div>
   );
