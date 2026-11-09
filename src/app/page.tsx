@@ -20,10 +20,13 @@ import {
   Dumbbell,
   MapPin,
   Clock,
+  Navigation,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { prisma } from "@/lib/prisma";
+import GalleryLightbox from "@/components/GalleryLightbox";
 
 const features = [
   {
@@ -160,7 +163,69 @@ const stats = [
 const WHATSAPP_URL =
   "https://wa.me/5214431234567?text=Hola%20Karla%2C%20quiero%20informaci%C3%B3n%20sobre%20LM%20Sport%20Gym";
 
-export default function LandingPage() {
+const GYM_LOCATION = {
+  lat: 19.7013912,
+  lng: -100.4691184,
+  mapsLink: "https://maps.app.goo.gl/Mwi93DT5q5vwr9jc9",
+  area: "Morelia, Mich.",
+};
+
+export const revalidate = 60; // refresca posts cada minuto
+
+async function loadContent() {
+  try {
+    const posts = await prisma.post.findMany({
+      where: { isPublished: true },
+      orderBy: { publishedAt: "desc" },
+      take: 6,
+      include: {
+        images: {
+          orderBy: { order: "asc" },
+          include: { upload: { select: { id: true } } },
+        },
+      },
+    });
+    const galleryRaw = await prisma.post.findMany({
+      where: { isPublished: true, tags: { contains: "galeria" } },
+      orderBy: { publishedAt: "desc" },
+      take: 20,
+      include: {
+        images: {
+          orderBy: { order: "asc" },
+          include: { upload: { select: { id: true } } },
+        },
+      },
+    });
+    const gallery: Array<{ id: string; url: string; title: string | null }> = [];
+    for (const p of galleryRaw) {
+      for (const pi of p.images) {
+        gallery.push({
+          id: pi.upload.id,
+          url: `/api/uploads/${pi.upload.id}`,
+          title: p.title,
+        });
+      }
+    }
+    return {
+      posts: posts.map((p) => ({
+        id: p.id,
+        title: p.title,
+        body: p.body,
+        publishedAt: p.publishedAt,
+        images: p.images.map((pi) => ({
+          id: pi.upload.id,
+          url: `/api/uploads/${pi.upload.id}`,
+        })),
+      })),
+      gallery: gallery.slice(0, 12),
+    };
+  } catch {
+    return { posts: [], gallery: [] };
+  }
+}
+
+export default async function LandingPage() {
+  const { posts, gallery } = await loadContent();
   return (
     <div className="flex min-h-screen flex-col bg-[#0a0a0a] text-white">
       {/* Navigation */}
@@ -190,11 +255,14 @@ export default function LandingPage() {
             <a href="#funciones" className="text-sm font-medium text-gray-400 transition-colors hover:text-white">
               Funciones
             </a>
+            <a href="#galeria" className="text-sm font-medium text-gray-400 transition-colors hover:text-white">
+              Galería
+            </a>
             <a href="#planes" className="text-sm font-medium text-gray-400 transition-colors hover:text-white">
               Planes
             </a>
-            <a href="#testimonios" className="text-sm font-medium text-gray-400 transition-colors hover:text-white">
-              Resultados
+            <a href="#ubicacion" className="text-sm font-medium text-gray-400 transition-colors hover:text-white">
+              Ubicación
             </a>
           </nav>
           <div className="flex items-center gap-3">
@@ -631,6 +699,144 @@ export default function LandingPage() {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Galería */}
+        {gallery.length > 0 && (
+          <section id="galeria" className="scroll-mt-16 bg-[#0a0a0a]">
+            <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+              <div className="mx-auto max-w-2xl text-center">
+                <Badge variant="secondary" className="mb-4 border border-orange-500/30 bg-orange-500/10 text-orange-300">
+                  Galería
+                </Badge>
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                  LM Sport Gym por dentro
+                </h2>
+                <p className="mt-4 text-lg text-gray-400">
+                  Instalaciones, clases y momentos del día a día.
+                </p>
+              </div>
+              <GalleryLightbox items={gallery} />
+            </div>
+          </section>
+        )}
+
+        {/* Últimas publicaciones */}
+        {posts.length > 0 && (
+          <section id="posts" className="scroll-mt-16 bg-[#0f0f0f]">
+            <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+              <div className="mx-auto max-w-2xl text-center">
+                <Badge variant="secondary" className="mb-4 border border-orange-500/30 bg-orange-500/10 text-orange-300">
+                  Novedades
+                </Badge>
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                  Lo último en el gym
+                </h2>
+              </div>
+              <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {posts.map((p) => (
+                  <article
+                    key={p.id}
+                    className="group overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] transition-all hover:-translate-y-1 hover:border-orange-500/30"
+                  >
+                    {p.images[0] && (
+                      <div className="relative aspect-[16/10] overflow-hidden bg-black/40">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={p.images[0].url}
+                          alt={p.title ?? "Publicación"}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                    )}
+                    <div className="p-5">
+                      <div className="text-[11px] uppercase tracking-wider text-orange-400/80 mb-2">
+                        {new Date(p.publishedAt).toLocaleDateString("es-MX", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </div>
+                      {p.title && (
+                        <h3 className="text-lg font-semibold tracking-tight mb-2 line-clamp-2">
+                          {p.title}
+                        </h3>
+                      )}
+                      {p.body && (
+                        <p className="text-sm text-gray-400 leading-relaxed line-clamp-4 whitespace-pre-line">
+                          {p.body}
+                        </p>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Ubicación */}
+        <section id="ubicacion" className="scroll-mt-16 bg-[#0a0a0a]">
+          <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+            <div className="grid gap-10 lg:grid-cols-2 items-center">
+              <div>
+                <Badge variant="secondary" className="mb-4 border border-orange-500/30 bg-orange-500/10 text-orange-300">
+                  Ubicación
+                </Badge>
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                  Ven a entrenar con nosotros
+                </h2>
+                <p className="mt-4 text-lg text-gray-400">
+                  Estamos en {GYM_LOCATION.area}. Instalaciones limpias, equipo completo y un ambiente para que des tu mejor versión.
+                </p>
+                <div className="mt-8 space-y-4">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="h-5 w-5 text-orange-400 mt-0.5 shrink-0" />
+                    <div>
+                      <div className="text-sm font-semibold text-white">LM Sport Gym</div>
+                      <div className="text-sm text-gray-400">{GYM_LOCATION.area}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Clock className="h-5 w-5 text-orange-400 mt-0.5 shrink-0" />
+                    <div>
+                      <div className="text-sm font-semibold text-white">Horario</div>
+                      <div className="text-sm text-gray-400">Lunes a Sábado · 5:30 – 22:00</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a
+                    href={GYM_LOCATION.mapsLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button size="lg" className="gap-2 font-semibold">
+                      <Navigation className="h-4 w-4" />
+                      Cómo llegar
+                    </Button>
+                  </a>
+                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" size="lg" className="gap-2 text-white">
+                      <MessageCircle className="h-4 w-4" />
+                      WhatsApp
+                    </Button>
+                  </a>
+                </div>
+              </div>
+              <div className="relative rounded-3xl overflow-hidden ring-1 ring-white/10 shadow-2xl aspect-square lg:aspect-auto lg:h-[480px]">
+                <iframe
+                  src={`https://www.google.com/maps?q=${GYM_LOCATION.lat},${GYM_LOCATION.lng}&z=17&output=embed`}
+                  width="100%"
+                  height="100%"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="border-0"
+                  title="Ubicación de LM Sport Gym"
+                />
+              </div>
             </div>
           </div>
         </section>

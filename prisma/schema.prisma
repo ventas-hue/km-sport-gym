@@ -637,3 +637,45 @@ model NotificationLog {
   @@index([userId, sentAt])
   @@index([clientId, sentAt])
 }
+
+// ============================================================
+// CONTENT: Uploads, Posts, Gallery
+// ============================================================
+
+model Upload {
+  id         String      @id @default(cuid())
+  filename   String?
+  mimeType   String
+  width      Int?
+  height     Int?
+  data       Bytes
+  sizeBytes  Int
+  uploadedBy String?
+  createdAt  DateTime    @default(now())
+  postImages PostImage[]
+}
+
+model Post {
+  id          String      @id @default(cuid())
+  title       String?
+  body        String?     // texto / caption
+  tags        String?     // comma-separated: galeria, noticia, promo, logro, instalaciones, etc
+  isPublished Boolean     @default(true)
+  publishedAt DateTime    @default(now())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  images      PostImage[]
+
+  @@index([isPublished, publishedAt])
+}
+
+model PostImage {
+  id       String @id @default(cuid())
+  postId   String
+  uploadId String
+  order    Int    @default(0)
+  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  upload   Upload @relation(fields: [uploadId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, order])
+}
