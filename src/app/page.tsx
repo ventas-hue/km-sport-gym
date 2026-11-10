@@ -28,6 +28,7 @@ import Reveal from "@/components/Reveal";
 import WordReveal from "@/components/WordReveal";
 import ParallaxImage from "@/components/ParallaxImage";
 import ScrollProgress from "@/components/ScrollProgress";
+import StickyShowcase from "@/components/StickyShowcase";
 
 const WHATSAPP_URL =
   "https://wa.me/5214431234567?text=Hola%20Karla%2C%20quiero%20informaci%C3%B3n%20sobre%20LM%20Sport%20Gym";
@@ -326,6 +327,9 @@ export default async function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* STICKY SHOWCASE — estilo apple.com/iphone, 3 escenas pinned */}
+      <StickyShowcase />
 
       {/* FEATURES — grid con hover lift */}
       <section id="funciones" className="bg-[#0f0f10] py-24 sm:py-32">

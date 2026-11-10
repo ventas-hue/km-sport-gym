@@ -6,6 +6,16 @@ import PrintControls from "./PrintControls";
 
 export const dynamic = "force-dynamic";
 
+const GYM = {
+  name: "LM Sport Gym",
+  tagline: "By Karla Lizeth Merlos · Donde se hacen los campeones",
+  address: "Morelia, Michoacán, México",
+  phone: "+52 443 123 4567",
+  whatsapp: "+52 443 123 4567",
+  email: "contacto@lmsportgym.mx",
+  web: "lmsportgym.mx",
+};
+
 async function loadWorkout(id: string) {
   let session;
   try {
@@ -86,33 +96,43 @@ export default async function RoutinePdfPage({
 
       {/* Printable area */}
       <div className="mx-auto max-w-[800px] px-6 py-8 print:py-0">
-        {/* Header */}
-        <header className="flex items-start justify-between pb-6 border-b-2 border-orange-500">
-          <div className="flex items-center gap-4">
-            <Image
-              src="/logo.png"
-              alt="LM Sport Gym"
-              width={64}
-              height={64}
-              className="h-16 w-16 object-contain"
-            />
-            <div>
-              <div className="text-xl font-bold tracking-tight text-neutral-900">
-                LM Sport Gym
+        {/* Header profesional */}
+        <header className="pb-5 border-b-2 border-orange-500">
+          <div className="flex items-start justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="h-20 w-20 rounded-2xl bg-neutral-900 flex items-center justify-center ring-1 ring-orange-500/40 shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt={GYM.name}
+                  width={80}
+                  height={80}
+                  className="h-14 w-14 object-contain"
+                />
               </div>
-              <div className="text-[11px] uppercase tracking-widest text-orange-600 font-semibold">
-                By Karla Lizeth Merlos
-              </div>
-              <div className="text-[11px] text-neutral-500 mt-0.5">
-                Donde se hacen los campeones · Morelia, Mich.
+              <div>
+                <div className="text-[22px] font-bold tracking-tight text-neutral-900 leading-none">
+                  {GYM.name}
+                </div>
+                <div className="text-[10.5px] uppercase tracking-widest text-orange-600 font-semibold mt-1">
+                  {GYM.tagline}
+                </div>
+                <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[10.5px] text-neutral-600">
+                  <span>📍 {GYM.address}</span>
+                  <span>📱 {GYM.phone}</span>
+                  <span>✉ {GYM.email}</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="text-right text-[11px] text-neutral-500">
-            <div className="font-medium text-neutral-700">
-              Plan de entrenamiento
+            <div className="text-right text-[10.5px] text-neutral-500 shrink-0">
+              <div className="inline-block rounded-md bg-orange-500 text-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest">
+                Plan de entrenamiento
+              </div>
+              <div className="mt-2 text-neutral-700 font-medium">
+                Folio: {w.id.slice(-8).toUpperCase()}
+              </div>
+              <div className="mt-0.5">Emitido: {createdAt}</div>
+              <div className="mt-0.5 text-neutral-400">{GYM.web}</div>
             </div>
-            <div className="mt-0.5">Emitido: {createdAt}</div>
           </div>
         </header>
 
@@ -282,12 +302,37 @@ export default async function RoutinePdfPage({
           ))}
         </div>
 
-        {/* Footer */}
-        <footer className="mt-10 pt-4 border-t border-neutral-200 text-[10px] text-neutral-400 flex items-center justify-between">
-          <div>
-            Plan generado por LM Sport Gym · {new Date().getFullYear()}
+        {/* Footer profesional con datos del gym */}
+        <footer className="mt-10 pt-5 border-t-2 border-neutral-900">
+          <div className="grid grid-cols-3 gap-4 text-[10px] text-neutral-600">
+            <div>
+              <div className="font-bold uppercase tracking-widest text-neutral-900 text-[9px] mb-1.5">
+                {GYM.name}
+              </div>
+              <div className="text-neutral-500 leading-snug">{GYM.tagline}</div>
+            </div>
+            <div>
+              <div className="font-bold uppercase tracking-widest text-neutral-900 text-[9px] mb-1.5">
+                Contacto
+              </div>
+              <div>WhatsApp: {GYM.whatsapp}</div>
+              <div>{GYM.email}</div>
+              <div>{GYM.web}</div>
+            </div>
+            <div className="text-right">
+              <div className="font-bold uppercase tracking-widest text-neutral-900 text-[9px] mb-1.5">
+                Ubicación
+              </div>
+              <div>{GYM.address}</div>
+              <div className="mt-1 text-neutral-400">
+                Coach: {coachName}
+              </div>
+            </div>
           </div>
-          <div>Coach: {coachName}</div>
+          <div className="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-between text-[9px] text-neutral-400 uppercase tracking-widest">
+            <span>© {new Date().getFullYear()} {GYM.name}</span>
+            <span>Documento confidencial — exclusivo para {clientName}</span>
+          </div>
         </footer>
       </div>
     </div>
