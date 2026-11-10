@@ -25,6 +25,9 @@ import {
 import { prisma } from "@/lib/prisma";
 import GalleryLightbox from "@/components/GalleryLightbox";
 import Reveal from "@/components/Reveal";
+import WordReveal from "@/components/WordReveal";
+import ParallaxImage from "@/components/ParallaxImage";
+import ScrollProgress from "@/components/ScrollProgress";
 
 const WHATSAPP_URL =
   "https://wa.me/5214431234567?text=Hola%20Karla%2C%20quiero%20informaci%C3%B3n%20sobre%20LM%20Sport%20Gym";
@@ -141,6 +144,7 @@ export default async function LandingPage() {
 
   return (
     <div className="bg-black text-white antialiased selection:bg-orange-500/30">
+      <ScrollProgress />
       {/* Nav flotante estilo Apple */}
       <header className="sticky top-0 z-50 border-b border-white/5 bg-black/60 backdrop-blur-2xl backdrop-saturate-150">
         <div className="mx-auto flex h-12 max-w-[1400px] items-center justify-between px-5 sm:px-8">
@@ -183,17 +187,29 @@ export default async function LandingPage() {
               <Trophy className="h-3 w-3" /> Atleta y Coach Certificada FMFF
             </span>
           </Reveal>
-          <Reveal delay={120}>
-            <h1 className="display-h mt-8 text-[48px] leading-[1.02] sm:text-[80px] lg:text-[112px]">
-              Entrena.
-              <br />
-              <span className="bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent">
-                Transforma.
-              </span>
-              <br />
-              <span className="gradient-text">Repite.</span>
-            </h1>
-          </Reveal>
+          <h1 className="display-h mt-8 text-[48px] leading-[1.02] sm:text-[80px] lg:text-[112px]">
+            <WordReveal
+              as="span"
+              text="Entrena."
+              stagger={70}
+              startDelay={100}
+              className="block"
+            />
+            <WordReveal
+              as="span"
+              text="Transforma."
+              stagger={70}
+              startDelay={260}
+              className="block bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent"
+            />
+            <WordReveal
+              as="span"
+              text="Repite."
+              stagger={70}
+              startDelay={420}
+              className="block gradient-text"
+            />
+          </h1>
           <Reveal delay={260}>
             <p className="display-sub mx-auto mt-8 max-w-2xl text-lg text-white/70 sm:text-xl">
               Soy Karla Lizeth Merlos. Atleta de wellness fitness y tu coach personal.
@@ -223,18 +239,20 @@ export default async function LandingPage() {
           </Reveal>
         </div>
 
-        {/* Hero image a pantalla completa debajo */}
-        <Reveal variant="scale" delay={200}>
+        {/* Hero image con parallax */}
+        <Reveal variant="scale" delay={700}>
           <div className="mx-auto mt-4 max-w-[1200px] px-5 sm:px-8">
             <div className="relative overflow-hidden rounded-3xl ring-1 ring-white/10 shadow-[0_40px_120px_-40px_rgba(249,115,22,0.3)]">
-              <Image
-                src="/karla-hero.jpg"
-                alt="Karla Lizeth Merlos"
-                width={1400}
-                height={800}
-                priority
-                className="h-[400px] sm:h-[560px] w-full object-cover object-top"
-              />
+              <ParallaxImage strength={0.12} className="h-[400px] sm:h-[560px]">
+                <Image
+                  src="/karla-hero.jpg"
+                  alt="Karla Lizeth Merlos"
+                  width={1400}
+                  height={800}
+                  priority
+                  className="h-[440px] sm:h-[620px] w-full object-cover object-top scale-105"
+                />
+              </ParallaxImage>
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
                 <div className="flex items-end justify-between flex-wrap gap-4">
@@ -318,19 +336,25 @@ export default async function LandingPage() {
               Todo lo que necesitas,<br />en un solo lugar.
             </h2>
           </Reveal>
-          <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal
+            stagger
+            className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
+            threshold={0.08}
+          >
             {features.map((f, i) => (
-              <Reveal key={f.title} variant="scale" delay={(i % 4) * 100}>
-                <div className="group h-full rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:border-orange-500/30 hover:bg-white/[0.04]">
-                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-500/10 text-orange-400 ring-1 ring-orange-500/20 transition group-hover:bg-orange-500 group-hover:text-white group-hover:scale-110">
-                    <f.icon className="h-5 w-5" strokeWidth={1.75} />
-                  </div>
-                  <h3 className="text-lg font-semibold tracking-tight">{f.title}</h3>
-                  <p className="mt-2 text-sm text-white/55 leading-relaxed">{f.desc}</p>
+              <div
+                key={f.title}
+                className="reveal-child magnetic group h-full rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 backdrop-blur-xl hover:border-orange-500/30 hover:bg-white/[0.04]"
+                style={{ "--i": i } as React.CSSProperties}
+              >
+                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-500/10 text-orange-400 ring-1 ring-orange-500/20 transition group-hover:bg-orange-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-3">
+                  <f.icon className="h-5 w-5" strokeWidth={1.75} />
                 </div>
-              </Reveal>
+                <h3 className="text-lg font-semibold tracking-tight">{f.title}</h3>
+                <p className="mt-2 text-sm text-white/55 leading-relaxed">{f.desc}</p>
+              </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -392,21 +416,22 @@ export default async function LandingPage() {
               Tres formas de entrenar con nosotros. Elige la que mejor se adapte a tu vida.
             </p>
           </Reveal>
-          <div className="mt-16 grid gap-6 md:grid-cols-3">
+          <Reveal stagger className="mt-16 grid gap-6 md:grid-cols-3" threshold={0.08}>
             {plans.map((plan, i) => (
-              <Reveal key={plan.name} delay={i * 120} variant="scale">
-                <div
-                  className={`relative h-full flex flex-col overflow-hidden rounded-3xl p-8 transition-all duration-500 hover:-translate-y-1 ${
-                    plan.featured
-                      ? "border border-orange-500/40 bg-gradient-to-b from-orange-500/[0.08] to-white/[0.01] md:scale-105 shadow-[0_30px_80px_-30px_rgba(249,115,22,0.35)]"
-                      : "border border-white/[0.08] bg-white/[0.02]"
-                  }`}
-                >
-                  {plan.featured && (
-                    <span className="absolute right-4 top-4 inline-flex items-center rounded-full bg-orange-500 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
-                      Popular
-                    </span>
-                  )}
+              <div
+                key={plan.name}
+                className={`reveal-child magnetic relative h-full flex flex-col overflow-hidden rounded-3xl p-8 ${
+                  plan.featured
+                    ? "border border-orange-500/40 bg-gradient-to-b from-orange-500/[0.08] to-white/[0.01] md:scale-105 shadow-[0_30px_80px_-30px_rgba(249,115,22,0.35)]"
+                    : "border border-white/[0.08] bg-white/[0.02]"
+                }`}
+                style={{ "--i": i } as React.CSSProperties}
+              >
+                {plan.featured && (
+                  <span className="absolute right-4 top-4 inline-flex items-center rounded-full bg-orange-500 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
+                    Popular
+                  </span>
+                )}
                   <h3 className="text-xl font-semibold tracking-tight">{plan.name}</h3>
                   <p className="mt-1 text-sm text-white/55">{plan.tag}</p>
                   <div className="mt-6 flex items-baseline gap-1">
@@ -421,21 +446,20 @@ export default async function LandingPage() {
                       </li>
                     ))}
                   </ul>
-                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="mt-8 block">
-                    <button
-                      className={`w-full h-11 rounded-full text-sm font-semibold transition active:scale-[0.97] ${
-                        plan.featured
-                          ? "bg-orange-500 text-white hover:bg-orange-500/90 shadow-[0_6px_20px_-6px_rgba(249,115,22,0.6)]"
-                          : "border border-white/15 bg-white/[0.04] text-white hover:bg-white/[0.08]"
-                      }`}
-                    >
-                      {plan.cta}
-                    </button>
-                  </a>
-                </div>
-              </Reveal>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="mt-8 block">
+                  <button
+                    className={`w-full h-11 rounded-full text-sm font-semibold transition active:scale-[0.97] ${
+                      plan.featured
+                        ? "bg-orange-500 text-white hover:bg-orange-500/90 shadow-[0_6px_20px_-6px_rgba(249,115,22,0.6)]"
+                        : "border border-white/15 bg-white/[0.04] text-white hover:bg-white/[0.08]"
+                    }`}
+                  >
+                    {plan.cta}
+                  </button>
+                </a>
+              </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 

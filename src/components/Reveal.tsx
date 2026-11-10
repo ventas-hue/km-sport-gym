@@ -10,11 +10,16 @@ interface Props {
   /** delay en ms */
   delay?: number;
   as?: keyof React.JSX.IntrinsicElements;
+  /** Si true, añade .reveal-stagger — hijos con .reveal-child se animan en serie con --i */
+  stagger?: boolean;
+  /** Umbral de visibilidad para disparar (0..1) */
+  threshold?: number;
 }
 
 /**
- * Apple-style scroll reveal. El primer scroll hacia el elemento lo hace
- * aparecer con fade+slide; luego permanece visible aunque salga de la vista.
+ * Apple-style scroll reveal (fade + blur-to-focus). El primer scroll
+ * hacia el elemento lo hace aparecer; luego permanece visible aunque
+ * salga de la vista.
  */
 export default function Reveal({
   children,
@@ -22,6 +27,8 @@ export default function Reveal({
   variant = "",
   delay = 0,
   as: Tag = "div",
+  stagger = false,
+  threshold = 0.12,
 }: Props) {
   const ref = useRef<HTMLElement>(null);
 
@@ -41,17 +48,17 @@ export default function Reveal({
           }
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      { threshold, rootMargin: "0px 0px -8% 0px" }
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [threshold]);
 
   const classes = [
-    "reveal",
-    variant === "left" && "reveal-left",
-    variant === "right" && "reveal-right",
-    variant === "scale" && "reveal-scale",
+    stagger ? "reveal-stagger" : "reveal",
+    !stagger && variant === "left" && "reveal-left",
+    !stagger && variant === "right" && "reveal-right",
+    !stagger && variant === "scale" && "reveal-scale",
     className,
   ]
     .filter(Boolean)
