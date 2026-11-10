@@ -9,11 +9,11 @@ export const dynamic = "force-dynamic";
 const GYM = {
   name: "LM Sport Gym",
   tagline: "By Karla Lizeth Merlos · Donde se hacen los campeones",
-  address: "Morelia, Michoacán, México",
-  phone: "+52 443 123 4567",
-  whatsapp: "+52 443 123 4567",
-  email: "contacto@lmsportgym.mx",
-  web: "lmsportgym.mx",
+  address: "Irimbo, Michoacán, C.P. 61285, México",
+  phone: "+52 786 139 4708",
+  whatsapp: "+52 786 139 4708",
+  email: "karlalizethmerlosguzman@gmail.com",
+  web: "lmsportgym.com",
 };
 
 async function loadWorkout(id: string) {

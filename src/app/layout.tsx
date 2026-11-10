@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "LM SPORT GYM - Donde se hacen los campeones",
   description:
-    "Coaching fitness profesional por Karla Lizeth Merlos. Gimnasio en Morelia y coaching online.",
+    "Coaching fitness profesional por Karla Lizeth Merlos. Gimnasio en Irimbo, Michoacán y coaching online.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,

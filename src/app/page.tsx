@@ -31,13 +31,17 @@ import ScrollProgress from "@/components/ScrollProgress";
 import StickyShowcase from "@/components/StickyShowcase";
 
 const WHATSAPP_URL =
-  "https://wa.me/5214431234567?text=Hola%20Karla%2C%20quiero%20informaci%C3%B3n%20sobre%20LM%20Sport%20Gym";
+  "https://wa.me/527861394708?text=Hola%20Karla%2C%20quiero%20informaci%C3%B3n%20sobre%20LM%20Sport%20Gym";
 
 const GYM_LOCATION = {
   lat: 19.7013912,
   lng: -100.4691184,
-  mapsLink: "https://maps.app.goo.gl/Mwi93DT5q5vwr9jc9",
-  area: "Morelia, Mich.",
+  mapsLink: "https://maps.app.goo.gl/XUcwSWbNe5jtH7MG7",
+  area: "Irimbo, Mich.",
+  address: "Irimbo, Michoacán · C.P. 61285",
+  phone: "+52 786 139 4708",
+  email: "karlalizethmerlosguzman@gmail.com",
+  web: "lmsportgym.com",
 };
 
 const features = [
@@ -234,7 +238,7 @@ export default async function LandingPage() {
           </Reveal>
           <Reveal delay={600}>
             <div className="mt-10 flex items-center justify-center gap-6 text-[12px] text-white/50">
-              <span className="inline-flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-orange-400" />Morelia, Mich.</span>
+              <span className="inline-flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-orange-400" />{GYM_LOCATION.area}</span>
               <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-orange-400" />Lun–Sáb · 5:30–22:00</span>
             </div>
           </Reveal>
@@ -521,7 +525,14 @@ export default async function LandingPage() {
                     <MapPin className="h-5 w-5 text-orange-400 mt-0.5 shrink-0" />
                     <div>
                       <div className="text-sm font-semibold">LM Sport Gym</div>
-                      <div className="text-sm text-white/60">{GYM_LOCATION.area}</div>
+                      <div className="text-sm text-white/60">{GYM_LOCATION.address}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <MessageCircle className="h-5 w-5 text-orange-400 mt-0.5 shrink-0" />
+                    <div>
+                      <div className="text-sm font-semibold">WhatsApp</div>
+                      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-white/60 hover:text-white transition">{GYM_LOCATION.phone}</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
